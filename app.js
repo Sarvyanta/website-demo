@@ -4,6 +4,7 @@ Promise.all([
     fetch("config/sarvyanta.json").then(response => response.json())
 ])
 .then(([data, sarvyanta]) => {
+    alert(JSON.stringify(data));
 
     // Business information
     document.getElementById("businessName").textContent = data.businessName;
