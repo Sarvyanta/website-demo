@@ -1,84 +1,13 @@
 alert("APP JS IS RUNNING");
-Promise.all([
-    fetch("config/data.json").then(response => response.json()),
-    fetch("config/sarvyanta.json").then(response => response.json())
-])
-.then(([data, sarvyanta]) => {
-    alert(JSON.stringify(data));
 
-    // Business information
-    document.getElementById("businessName").textContent = data.businessName;
-    document.getElementById("tagline").textContent = data.tagline;
-    document.getElementById("description").textContent = data.description;
-
-    // Phone
-    const phoneElement = document.getElementById("phone");
-
-    if (data.phone) {
-        phoneElement.textContent = "Phone: " + data.phone;
-    } else {
-        phoneElement.style.display = "none";
-    }
-
-    // Location
-    const locationElement = document.getElementById("location");
-
-    if (data.location) {
-        locationElement.textContent = "Location: " + data.location;
-    } else {
-        locationElement.style.display = "none";
-    }
-
-    // Services
-    const servicesSection = document.getElementById("services");
-    const servicesList = document.getElementById("servicesList");
-
-    if (data.services && data.services.length > 0) {
-
-        data.services.forEach(service => {
-            const listItem = document.createElement("li");
-            listItem.textContent = service;
-            servicesList.appendChild(listItem);
-        });
-
-    } else {
-        servicesSection.style.display = "none";
-    }
-
-    // Products
-    const productsSection = document.getElementById("products");
-    const productsList = document.getElementById("productsList");
-
-    if (data.products && data.products.length > 0) {
-
-        data.products.forEach(product => {
-            const listItem = document.createElement("li");
-            listItem.textContent = product;
-            productsList.appendChild(listItem);
-        });
-
-    } else {
-        productsSection.style.display = "none";
-    }
-
-    // Sarvyanta branding
-    document.querySelector("footer p").textContent =
-        sarvyanta.collaborationText;
-
-    // WhatsApp enquiry
-    const whatsappButton = document.getElementById("whatsappButton");
-
-    const message =
-        "Hi Sarvyanta, I want to enquire about " +
-        data.businessName + ".";
-
-    whatsappButton.href =
-        "https://wa.me/" +
-        sarvyanta.whatsappNumber +
-        "?text=" +
-        encodeURIComponent(message);
-
-})
-.catch(error => {
-    console.error("Error loading website data:", error);
-});
+fetch("config/data.json")
+    .then(response => {
+        alert("data.json status: " + response.status);
+        return response.json();
+    })
+    .then(data => {
+        alert("DATA LOADED: " + JSON.stringify(data));
+    })
+    .catch(error => {
+        alert("DATA ERROR: " + error);
+    });
