@@ -1,7 +1,15 @@
 {
   "businessName": "Lakshmi Beauty Salon",
   "tagline": "Style that makes you shine",
-  "description": "A sample beauty salon website powered by the Sarvyanta website engine.",
+  "description": "A professional beauty salon offering quality beauty and styling services.",
   "phone": "8888888888",
-  "location": "Gandimaisamma, Hyderabad"
+  "location": "Gandimaisamma, Hyderabad",
+
+  "services": [
+    "Hair Cutting",
+    "Hair Styling",
+    "Facial",
+    "Bridal Makeup",
+    "Manicure & Pedicure"
+  ]
 }
