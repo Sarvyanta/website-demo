@@ -1,13 +1,13 @@
-alert("APP JS IS RUNNING");
+alert("1 - APP JS RUNNING");
 
 fetch("config/data.json")
-    .then(response => {
-        alert("data.json status: " + response.status);
-        return response.json();
+    .then(function(response) {
+        alert("2 - Response received: " + response.status);
+        return response.text();
     })
-    .then(data => {
-        alert("DATA LOADED: " + JSON.stringify(data));
+    .then(function(text) {
+        alert("3 - File content: " + text);
     })
-    .catch(error => {
-        alert("DATA ERROR: " + error);
-    });
+    .catch(function(error) {
+        alert("ERROR: " + error.message);
+    }); 
