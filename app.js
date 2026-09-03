@@ -28,28 +28,36 @@ Promise.all([
     }
 
     // Services
+    const servicesSection = document.getElementById("services");
     const servicesList = document.getElementById("servicesList");
 
     if (data.services && data.services.length > 0) {
+
         data.services.forEach(service => {
             const listItem = document.createElement("li");
             listItem.textContent = service;
             servicesList.appendChild(listItem);
         });
-    }
-    // Products
-const productsSection = document.getElementById("products");
-const productsList = document.getElementById("productsList");
 
-if (data.products && data.products.length > 0) {
-    data.products.forEach(product => {
-        const listItem = document.createElement("li");
-        listItem.textContent = product;
-        productsList.appendChild(listItem);
-    });
-} else {
-    productsSection.style.display = "none";
-}
+    } else {
+        servicesSection.style.display = "none";
+    }
+
+    // Products
+    const productsSection = document.getElementById("products");
+    const productsList = document.getElementById("productsList");
+
+    if (data.products && data.products.length > 0) {
+
+        data.products.forEach(product => {
+            const listItem = document.createElement("li");
+            listItem.textContent = product;
+            productsList.appendChild(listItem);
+        });
+
+    } else {
+        productsSection.style.display = "none";
+    }
 
     // Sarvyanta branding
     document.querySelector("footer p").textContent =
