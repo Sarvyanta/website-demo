@@ -1,4 +1,3 @@
-
 Promise.all([
     fetch("config/data.json").then(response => response.json()),
     fetch("config/sarvyanta.json").then(response => response.json())
@@ -10,23 +9,24 @@ Promise.all([
     document.getElementById("tagline").textContent = data.tagline;
     document.getElementById("description").textContent = data.description;
 
-// Phone
-const phoneElement = document.getElementById("phone");
+    // Phone
+    const phoneElement = document.getElementById("phone");
 
-if (data.phone) {
-    phoneElement.textContent = "Phone: " + data.phone;
-} else {
-    phoneElement.style.display = "none";
-}
+    if (data.phone) {
+        phoneElement.textContent = "Phone: " + data.phone;
+    } else {
+        phoneElement.style.display = "none";
+    }
 
-// Location
-const locationElement = document.getElementById("location");
+    // Location
+    const locationElement = document.getElementById("location");
 
-if (data.location) {
-    locationElement.textContent = "Location: " + data.location;
-} else {
-    locationElement.style.display = "none";
-}
+    if (data.location) {
+        locationElement.textContent = "Location: " + data.location;
+    } else {
+        locationElement.style.display = "none";
+    }
+
     // Services
     const servicesList = document.getElementById("servicesList");
 
