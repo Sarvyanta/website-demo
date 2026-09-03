@@ -1,3 +1,4 @@
+
 Promise.all([
     fetch("config/data.json").then(response => response.json()),
     fetch("config/sarvyanta.json").then(response => response.json())
@@ -25,6 +26,19 @@ Promise.all([
     // Sarvyanta branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
+
+    // WhatsApp enquiry
+    const whatsappButton = document.getElementById("whatsappButton");
+
+    const message =
+        "Hi Sarvyanta, I want to enquire about " +
+        data.businessName + ".";
+
+    whatsappButton.href =
+        "https://wa.me/" +
+        sarvyanta.whatsappNumber +
+        "?text=" +
+        encodeURIComponent(message);
 
 })
 .catch(error => {
