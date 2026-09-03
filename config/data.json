@@ -10,10 +10,11 @@
     "Facial",
     "Bridal Makeup",
     "Manicure & Pedicure"
-  ]
+  ],
+
   "products": [
-  "Birthday Cakes",
-  "Chocolate Cake",
-  "Black Forest Cake"
+    "Birthday Cakes",
+    "Chocolate Cake",
+    "Black Forest Cake"
   ]
 }
