@@ -1,3 +1,4 @@
+alert("APP JS IS RUNNING");
 Promise.all([
     fetch("config/data.json").then(response => response.json()),
     fetch("config/sarvyanta.json").then(response => response.json())
