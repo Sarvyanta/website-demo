@@ -8,6 +8,14 @@ fetch("config/data.json")
         document.getElementById("phone").textContent = "Phone: " + data.phone;
         document.getElementById("location").textContent = "Location: " + data.location;
 
+        const servicesList = document.getElementById("servicesList");
+
+        data.services.forEach(service => {
+            const listItem = document.createElement("li");
+            listItem.textContent = service;
+            servicesList.appendChild(listItem);
+        });
+
     })
     .catch(error => {
         console.error("Error loading business data:", error);
