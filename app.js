@@ -9,9 +9,24 @@ Promise.all([
     document.getElementById("businessName").textContent = data.businessName;
     document.getElementById("tagline").textContent = data.tagline;
     document.getElementById("description").textContent = data.description;
-    document.getElementById("phone").textContent = "Phone: " + data.phone;
-    document.getElementById("location").textContent = "Location: " + data.location;
 
+// Phone
+const phoneElement = document.getElementById("phone");
+
+if (data.phone) {
+    phoneElement.textContent = "Phone: " + data.phone;
+} else {
+    phoneElement.style.display = "none";
+}
+
+// Location
+const locationElement = document.getElementById("location");
+
+if (data.location) {
+    locationElement.textContent = "Location: " + data.location;
+} else {
+    locationElement.style.display = "none";
+}
     // Services
     const servicesList = document.getElementById("servicesList");
 
