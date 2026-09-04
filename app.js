@@ -104,6 +104,25 @@ if (data.products && data.products.length > 0) {
         productsList.appendChild(listItem);
     });
 
+    // One WhatsApp button for all products
+    const orderButton = document.createElement("a");
+
+    orderButton.textContent = "Order on WhatsApp";
+    orderButton.href =
+        "https://wa.me/" +
+        sarvyanta.whatsappNumber +
+        "?text=" +
+        encodeURIComponent(
+            "Hi Sarvyanta, I want to order a product from " +
+            data.businessName +
+            "."
+        );
+
+    orderButton.target = "_blank";
+    orderButton.id = "productsWhatsappButton";
+
+    productsSection.appendChild(orderButton);
+
 } else {
     productsSection.style.display = "none";
 }
