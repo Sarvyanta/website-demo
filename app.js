@@ -8,7 +8,19 @@ Promise.all([
     document.getElementById("businessName").textContent = data.businessName;
     document.getElementById("tagline").textContent = data.tagline;
     document.getElementById("description").textContent = data.description;
+// Business logo
+const logoElement = document.getElementById("businessLogo");
 
+if (data.logo) {
+    logoElement.src = data.logo;
+    logoElement.alt = data.businessName + " logo";
+
+    logoElement.onerror = () => {
+        logoElement.style.display = "none";
+    };
+} else {
+    logoElement.style.display = "none";
+}
     // Phone
     const phoneElement = document.getElementById("phone");
 
