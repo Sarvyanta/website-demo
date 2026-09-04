@@ -88,6 +88,30 @@ if (data.gallery && data.gallery.length > 0) {
 } else {
     gallerySection.style.display = "none";
 }
+    // Social links
+const socialLinks = document.getElementById("socialLinks");
+const instagramButton = document.getElementById("instagramButton");
+const facebookButton = document.getElementById("facebookButton");
+
+let hasSocialLinks = false;
+
+if (data.instagram) {
+    instagramButton.href = data.instagram;
+    hasSocialLinks = true;
+} else {
+    instagramButton.style.display = "none";
+}
+
+if (data.facebook) {
+    facebookButton.href = data.facebook;
+    hasSocialLinks = true;
+} else {
+    facebookButton.style.display = "none";
+}
+
+if (!hasSocialLinks) {
+    socialLinks.style.display = "none";
+}
     // Sarvyanta branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
