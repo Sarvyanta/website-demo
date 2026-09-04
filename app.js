@@ -38,46 +38,40 @@ if (data.logo) {
     } else {
         locationElement.style.display = "none";
     }
-
-    /// Services
+// Services
 const servicesSection = document.getElementById("services");
 const servicesList = document.getElementById("servicesList");
 
 if (data.services && data.services.length > 0) {
 
     data.services.forEach(service => {
-
         const listItem = document.createElement("li");
-
-        const serviceName = document.createElement("strong");
-        serviceName.textContent = service;
-
-        const enquireButton = document.createElement("a");
-        enquireButton.textContent = "Enquire on WhatsApp";
-        enquireButton.href =
-            "https://wa.me/" +
-            sarvyanta.whatsappNumber +
-            "?text=" +
-            encodeURIComponent(
-                "Hi Sarvyanta, I am interested in " +
-                service +
-                " from " +
-                data.businessName +
-                "."
-            );
-
-        enquireButton.target = "_blank";
-
-        listItem.appendChild(serviceName);
-        listItem.appendChild(enquireButton);
-
+        listItem.textContent = service;
         servicesList.appendChild(listItem);
     });
+
+    // One WhatsApp button for all services
+    const enquireButton = document.createElement("a");
+
+    enquireButton.textContent = "Enquire on WhatsApp";
+    enquireButton.href =
+        "https://wa.me/" +
+        sarvyanta.whatsappNumber +
+        "?text=" +
+        encodeURIComponent(
+            "Hi Sarvyanta, I am interested in the services offered by " +
+            data.businessName +
+            "."
+        );
+
+    enquireButton.target = "_blank";
+    enquireButton.id = "servicesWhatsappButton";
+
+    servicesSection.appendChild(enquireButton);
 
 } else {
     servicesSection.style.display = "none";
 }
-
     // Products
 const productsSection = document.getElementById("products");
 const productsList = document.getElementById("productsList");
