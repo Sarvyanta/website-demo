@@ -64,9 +64,25 @@ if (data.products && data.products.length > 0) {
     data.products.forEach(product => {
         const listItem = document.createElement("li");
 
-        listItem.innerHTML =
-            "<strong>" + product.name + "</strong>" +
-            " - ₹" + product.price;
+        if (product.image) {
+            const image = document.createElement("img");
+            image.src = product.image;
+            image.alt = product.name;
+            image.style.width = "100%";
+            image.style.borderRadius = "10px";
+            image.style.marginBottom = "10px";
+
+            listItem.appendChild(image);
+        }
+
+        const name = document.createElement("strong");
+        name.textContent = product.name;
+
+        const price = document.createElement("div");
+        price.textContent = "₹" + product.price;
+
+        listItem.appendChild(name);
+        listItem.appendChild(price);
 
         productsList.appendChild(listItem);
     });
