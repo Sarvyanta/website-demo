@@ -1,16 +1,26 @@
 {
-  "businessName": "Amazing Magic Show",
-  "tagline": "Magic that makes every moment unforgettable",
-  "description": "Professional magician offering entertaining magic shows for parties, events, schools and corporate programs.",
+  "businessName": "Sweet Magic Bakery",
+  "tagline": "Freshly baked happiness",
+  "description": "Fresh cakes and bakery products made for birthdays, celebrations and special occasions.",
   "phone": "8888888888",
   "location": "Hyderabad",
-  "services": [
-    "Birthday Party Magic Shows",
-    "Corporate Events",
-    "School & College Shows",
-    "Wedding Entertainment",
-    "Private Events"
-  ],
+  "services": [],
   "gallery": [],
-  "products": []
+  "products": [
+    {
+      "name": "Birthday Cake",
+      "price": 650,
+      "image": "https://placehold.co/600x400?text=Birthday+Cake"
+    },
+    {
+      "name": "Chocolate Cake",
+      "price": 550,
+      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
+    },
+    {
+      "name": "Black Forest Cake",
+      "price": 600,
+      "image": "https://placehold.co/600x400?text=Black+Forest+Cake"
+    }
+  ]
 }
