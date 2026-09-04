@@ -70,7 +70,10 @@ if (data.logo) {
     } else {
         productsSection.style.display = "none";
     }
-
+<section id="gallery">
+    <h2>Gallery</h2>
+    <div id="galleryList"></div>
+</section>
     // Sarvyanta branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
