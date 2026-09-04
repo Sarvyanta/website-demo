@@ -57,3 +57,44 @@ footer {
     color: white;
     font-size: 14px;
 }
+/* Mobile responsive design */
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+    header {
+        padding: 25px 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    #galleryList {
+        grid-template-columns: 1fr;
+    }
+
+    #galleryList img {
+        width: 100%;
+        height: auto;
+    }
+
+    #socialLinks {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #socialLinks a,
+    #whatsappButton {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}
