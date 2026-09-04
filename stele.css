@@ -98,3 +98,14 @@ footer {
         text-align: center;
     }
 }
+/* Business logo */
+#businessLogo {
+    display: block;
+    max-width: 160px;
+    max-height: 160px;
+    width: auto;
+    height: auto;
+    margin: 0 auto 15px;
+    object-fit: contain;
+    border-radius: 12px;
+}
