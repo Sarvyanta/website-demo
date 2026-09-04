@@ -70,10 +70,24 @@ if (data.logo) {
     } else {
         productsSection.style.display = "none";
     }
-<section id="gallery">
-    <h2>Gallery</h2>
-    <div id="galleryList"></div>
-</section>
+// Gallery
+const gallerySection = document.getElementById("gallery");
+const galleryList = document.getElementById("galleryList");
+
+if (data.gallery && data.gallery.length > 0) {
+
+    data.gallery.forEach(image => {
+        const img = document.createElement("img");
+
+        img.src = image;
+        img.alt = data.businessName + " gallery image";
+
+        galleryList.appendChild(img);
+    });
+
+} else {
+    gallerySection.style.display = "none";
+}
     // Sarvyanta branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
