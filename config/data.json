@@ -1,37 +1,16 @@
 {
-  "businessName": "Lakshmi Beauty Salon",
-  "tagline": "Style that makes you shine",
-  "description": "A professional beauty salon offering quality beauty and styling services.",
+  "businessName": "Amazing Magic Show",
+  "tagline": "Magic that makes every moment unforgettable",
+  "description": "Professional magician offering entertaining magic shows for parties, events, schools and corporate programs.",
   "phone": "8888888888",
-"instagram": "https://instagram.com/lakshmibeautysalon",
-"facebook": "https://facebook.com/lakshmibeautysalon",
+  "location": "Hyderabad",
   "services": [
-    "Hair Cutting",
-    "Hair Styling",
-    "Facial",
-    "Bridal Makeup",
-    "Manicure & Pedicure"
+    "Birthday Party Magic Shows",
+    "Corporate Events",
+    "School & College Shows",
+    "Wedding Entertainment",
+    "Private Events"
   ],
-  
-"gallery": [
-  "https://placehold.co/600x400?text=Salon+Photo+1",
-  "https://placehold.co/600x400?text=Salon+Photo+2",
-  "https://placehold.co/600x400?text=Salon+Photo+3"
-],
-  "products": [
-  {
-  
-  "name": "Birthday Cake",
-  "price": 650,
-  "image": "https://placehold.co/600x400?text=Birthday+Cake"
-  },
-  {
-    "name": "Chocolate Cake",
-    "price": 550
-  },
-  {
-    "name": "Black Forest Cake",
-    "price": 600
-  }
-]
+  "gallery": [],
+  "products": []
 }
