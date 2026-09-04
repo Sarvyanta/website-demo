@@ -11,7 +11,12 @@
     "Bridal Makeup",
     "Manicure & Pedicure"
   ],
-
+  
+"gallery": [
+  "https://placehold.co/600x400?text=Salon+Photo+1",
+  "https://placehold.co/600x400?text=Salon+Photo+2",
+  "https://placehold.co/600x400?text=Salon+Photo+3"
+],
   "products": [
     "Birthday Cakes",
     "Chocolate Cake",
