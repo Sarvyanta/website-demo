@@ -109,3 +109,25 @@ footer {
     object-fit: contain;
     border-radius: 12px;
 }
+/* Product cards */
+#productsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+#productsList li {
+    list-style: none;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-size: 18px;
+    text-align: center;
+}
+
+#productsList li strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 20px;
+        }
