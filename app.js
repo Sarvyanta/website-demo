@@ -56,20 +56,24 @@ if (data.logo) {
     }
 
     // Products
-    const productsSection = document.getElementById("products");
-    const productsList = document.getElementById("productsList");
+const productsSection = document.getElementById("products");
+const productsList = document.getElementById("productsList");
 
-    if (data.products && data.products.length > 0) {
+if (data.products && data.products.length > 0) {
 
-        data.products.forEach(product => {
-            const listItem = document.createElement("li");
-            listItem.textContent = product;
-            productsList.appendChild(listItem);
-        });
+    data.products.forEach(product => {
+        const listItem = document.createElement("li");
 
-    } else {
-        productsSection.style.display = "none";
-    }
+        listItem.innerHTML =
+            "<strong>" + product.name + "</strong>" +
+            " - ₹" + product.price;
+
+        productsList.appendChild(listItem);
+    });
+
+} else {
+    productsSection.style.display = "none";
+}
 // Gallery
 const gallerySection = document.getElementById("gallery");
 const galleryList = document.getElementById("galleryList");
