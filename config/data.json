@@ -19,8 +19,17 @@
   "https://placehold.co/600x400?text=Salon+Photo+3"
 ],
   "products": [
-    "Birthday Cakes",
-    "Chocolate Cake",
-    "Black Forest Cake"
-  ]
+  {
+    "name": "Birthday Cake",
+    "price": 650
+  },
+  {
+    "name": "Chocolate Cake",
+    "price": 550
+  },
+  {
+    "name": "Black Forest Cake",
+    "price": 600
+  }
+]
 }
