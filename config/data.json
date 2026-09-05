@@ -1,20 +1,21 @@
 {
-  "businessName": "Glow Beauty Salon",
+  "businessName": "Vision Frame Photography",
+  "tagline": "Capturing moments that last forever.",
+  "description": "Professional photography services for weddings, events, portraits and special occasions.",
   "logo": "https://placehold.co/300x300?text=LOGO",
-  "tagline": "Look good. Feel great.",
-  "description": "Professional beauty and grooming services for women and men.",
-  
   "services": [
-    "Haircut & Styling",
-    "Hair Coloring",
-    "Facial",
-    "Bridal Makeup"
+    "Wedding Photography",
+    "Event Photography",
+    "Portrait Photography",
+    "Pre-Wedding Photography"
   ],
   "gallery": [
-    "https://placehold.co/600x400?text=Salon+Photo+1",
-    "https://placehold.co/600x400?text=Salon+Photo+2",
-    "https://placehold.co/600x400?text=Salon+Photo+3"
+    "https://placehold.co/600x400?text=Wedding",
+    "https://placehold.co/600x400?text=Portrait",
+    "https://placehold.co/600x400?text=Event",
+    "https://placehold.co/600x400?text=Pre-Wedding"
   ],
+  "instagram": "https://instagram.com/example",
+  "facebook": "https://facebook.com/example",
   "products": []
-  
 }
