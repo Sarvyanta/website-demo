@@ -1,21 +1,39 @@
 {
-  "businessName": "Vision Frame Photography",
-  "tagline": "Capturing moments that last forever.",
-  "description": "Professional photography services for weddings, events, portraits and special occasions.",
-  "logo": "https://placehold.co/300x300?text=LOGO",
+  "businessName": "Royal Bake House",
+  "tagline": "Freshly baked. Made with love.",
+  "description": "Fresh cakes, pastries and custom desserts for every occasion.",
+  "logo": "https://placehold.co/300x300?text=BAKERY",
+
   "services": [
-    "Wedding Photography",
-    "Event Photography",
-    "Portrait Photography",
-    "Pre-Wedding Photography"
+    "Custom Birthday Cakes",
+    "Wedding Cakes",
+    "Theme Cakes",
+    "Bulk Orders"
   ],
+
+  "products": [
+    {
+      "name": "Chocolate Cake",
+      "price": 650,
+      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
+    },
+    {
+      "name": "Red Velvet Cake",
+      "price": 750,
+      "image": "https://placehold.co/600x400?text=Red+Velvet"
+    },
+    {
+      "name": "Black Forest Cake",
+      "price": 700,
+      "image": "https://placehold.co/600x400?text=Black+Forest"
+    }
+  ],
+
   "gallery": [
-    "https://placehold.co/600x400?text=Wedding",
-    "https://placehold.co/600x400?text=Portrait",
-    "https://placehold.co/600x400?text=Event",
-    "https://placehold.co/600x400?text=Pre-Wedding"
+    "https://placehold.co/600x400?text=Bakery+1",
+    "https://placehold.co/600x400?text=Bakery+2"
   ],
+
   "instagram": "https://instagram.com/example",
-  "facebook": "https://facebook.com/example",
-  "products": []
+  "facebook": "https://facebook.com/example"
 }
