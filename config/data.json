@@ -1,15 +1,19 @@
 {
-  "businessName": "Magic Mahesh",
-  "tagline": "Amazing magic for every occasion",
-  "description": "Professional magician for birthdays, weddings, corporate events and special celebrations.",
+  "businessName": "Glow Beauty Salon",
+  "tagline": "Look good. Feel great.",
+  "description": "Professional beauty and grooming services for women and men.",
   "phone": "9999999999",
   "location": "Hyderabad",
   "services": [
-    "Birthday Party Magic Shows",
-    "Wedding Magic Shows",
-    "Corporate Events",
-    "Kids Magic Shows"
+    "Haircut & Styling",
+    "Hair Coloring",
+    "Facial",
+    "Bridal Makeup"
   ],
-  "gallery": [],
+  "gallery": [
+    "https://placehold.co/600x400?text=Salon+Photo+1",
+    "https://placehold.co/600x400?text=Salon+Photo+2",
+    "https://placehold.co/600x400?text=Salon+Photo+3"
+  ],
   "products": []
 }
