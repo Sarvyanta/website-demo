@@ -1,31 +1,15 @@
 {
-  "businessName": "Sweet Magic Bakery",
-  "tagline": "Freshly baked happiness",
-  "description": "Fresh cakes and bakery products made for birthdays, celebrations and special occasions.",
-  "phone": "8888888888",
+  "businessName": "Magic Mahesh",
+  "tagline": "Amazing magic for every occasion",
+  "description": "Professional magician for birthdays, weddings, corporate events and special celebrations.",
+  "phone": "9999999999",
   "location": "Hyderabad",
-  "services": [],
-  "gallery": [
-  "https://placehold.co/600x400?text=Bakery+Photo+1",
-  "https://placehold.co/600x400?text=Bakery+Photo+2",
-  "https://placehold.co/600x400?text=Bakery+Photo+3"
-],
-  "products": [
-    {
-      "name": "Birthday Cake",
-      "price": 650,
-      "image": "https://placehold.co/600x400?text=Birthday+Cake"
-    },
-    {
-      "name": "Chocolate Cake",
-      "price": 550,
-      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
-    },
-    {
-      "name": "Black Forest Cake",
-      "price": 600,
-      "image": "https://placehold.co/600x400?text=Black+Forest+Cake"
-    }
-  ]
+  "services": [
+    "Birthday Party Magic Shows",
+    "Wedding Magic Shows",
+    "Corporate Events",
+    "Kids Magic Shows"
+  ],
+  "gallery": [],
+  "products": []
 }
-
