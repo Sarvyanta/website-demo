@@ -5,7 +5,11 @@
   "phone": "8888888888",
   "location": "Hyderabad",
   "services": [],
-  "gallery": [],
+  "gallery": [
+  "https://placehold.co/600x400?text=Bakery+Photo+1",
+  "https://placehold.co/600x400?text=Bakery+Photo+2",
+  "https://placehold.co/600x400?text=Bakery+Photo+3"
+],
   "products": [
     {
       "name": "Birthday Cake",
@@ -24,8 +28,4 @@
     }
   ]
 }
-"gallery": [
-  "https://placehold.co/600x400?text=Bakery+Photo+1",
-  "https://placehold.co/600x400?text=Bakery+Photo+2",
-  "https://placehold.co/600x400?text=Bakery+Photo+3"
-],
+
