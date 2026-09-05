@@ -24,3 +24,8 @@
     }
   ]
 }
+"gallery": [
+  "https://placehold.co/600x400?text=Bakery+Photo+1",
+  "https://placehold.co/600x400?text=Bakery+Photo+2",
+  "https://placehold.co/600x400?text=Bakery+Photo+3"
+],
