@@ -173,7 +173,24 @@ if (!hasSocialLinks) {
         sarvyanta.collaborationText;
 
     // WhatsApp enquiry
-    const whatsappButton = document.getElementById("whatsappButton");
+const whatsappButton = document.getElementById("whatsappButton");
+
+if (sarvyanta.whatsappNumber) {
+
+    const message =
+        "Hi Sarvyanta, I want to enquire about " +
+        data.businessName +
+        ".";
+
+    whatsappButton.href =
+        "https://wa.me/" +
+        sarvyanta.whatsappNumber +
+        "?text=" +
+        encodeURIComponent(message);
+
+} else {
+    whatsappButton.style.display = "none";
+}
 
     const message =
         "Hi Sarvyanta, I want to enquire about " +
