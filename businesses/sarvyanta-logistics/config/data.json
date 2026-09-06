@@ -1,0 +1,37 @@
+{
+  "business": {
+    "id": "sarvyanta-logistics",
+    "name": "Sarvyanta Logistics",
+    "category": "Logistics",
+    "tagline": "Cross Paths",
+    "description": "",
+    "logo": "assets/logo/sl.jpg"
+  },
+  "sections": {
+    "about": true,
+    "services": true,
+    "products": false,
+    "gallery": true,
+    "contact": true
+  },
+  "contact": {
+    "phone": "",
+    "location": "Hyderabad"
+  },
+  "whatsapp": {
+    "number": "9852364142",
+    "owner": "sarvyanta"
+  },
+  "services": [
+    "Logistics",
+    "Deliveries"
+  ],
+  "products": [],
+  "gallery": [
+    "assets/gallery/logo.jpg"
+  ],
+  "social": {
+    "instagram": "",
+    "facebook": ""
+  }
+}
