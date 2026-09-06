@@ -1,0 +1,62 @@
+{
+  "business": {
+    "name": "Royal Bake House",
+    "category": "Bakery",
+    "tagline": "Freshly baked. Made with love.",
+    "description": "Fresh cakes, pastries and custom desserts for every occasion.",
+    "logo": "https://placehold.co/300x300?text=BAKERY"
+  },
+
+  "sections": {
+    "about": true,
+    "services": false,
+    "products": true,
+    "gallery": true,
+    "contact": true
+  },
+
+  "contact": {
+    "phone": "",
+    "location": ""
+  },
+
+  "whatsapp": {
+    "number": "XXXXXXXXXX",
+    "owner": "business"
+  },
+
+  "services": [
+    "Custom Birthday Cakes",
+    "Wedding Cakes",
+    "Theme Cakes",
+    "Bulk Orders"
+  ],
+
+  "products": [
+    {
+      "name": "Chocolate Cake",
+      "price": 650,
+      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
+    },
+    {
+      "name": "Red Velvet Cake",
+      "price": 750,
+      "image": "https://placehold.co/600x400?text=Red+Velvet"
+    },
+    {
+      "name": "Black Forest Cake",
+      "price": 700,
+      "image": "https://placehold.co/600x400?text=Black+Forest"
+    }
+  ],
+
+  "gallery": [
+    "https://placehold.co/600x400?text=Bakery+1",
+    "https://placehold.co/600x400?text=Bakery+2"
+  ],
+
+  "social": {
+    "instagram": "https://instagram.com/example",
+    "facebook": "https://facebook.com/example"
+  }
+}
