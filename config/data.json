@@ -7,6 +7,14 @@
     "logo": "https://placehold.co/300x300?text=BAKERY"
   },
 
+  "sections": {
+    "about": true,
+    "services": true,
+    "products": true,
+    "gallery": true,
+    "contact": true
+  },
+
   "contact": {
     "phone": "",
     "location": ""
@@ -28,23 +36,23 @@
     {
       "name": "Chocolate Cake",
       "price": 650,
-      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
+      "image": "assets/products/chocolate-cake.jpg"
     },
     {
       "name": "Red Velvet Cake",
       "price": 750,
-      "image": "https://placehold.co/600x400?text=Red+Velvet"
+      "image": "assets/products/red-velvet.jpg"
     },
     {
       "name": "Black Forest Cake",
       "price": 700,
-      "image": "https://placehold.co/600x400?text=Black+Forest"
+      "image": "assets/products/black-forest.jpg"
     }
   ],
 
   "gallery": [
-    "https://placehold.co/600x400?text=Bakery+1",
-    "https://placehold.co/600x400?text=Bakery+2"
+    "assets/gallery/bakery-1.jpg",
+    "assets/gallery/bakery-2.jpg"
   ],
 
   "social": {
