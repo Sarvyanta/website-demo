@@ -173,3 +173,32 @@ footer {
     object-fit: cover;
     border-radius: 12px;
 }
+/* Dynamic navigation */
+
+#navigation {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 15px 20px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+#navigation a {
+    text-decoration: none;
+    color: #222;
+    font-weight: bold;
+}
+
+#navigation a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+
+    #navigation {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+}
