@@ -79,16 +79,20 @@ Promise.all([
 
         enquireButton.textContent = "Enquire on WhatsApp";
         enquireButton.href =
-            "https://wa.me/" +
-            (data.whatsapp && data.whatsapp.owner === "business" && data.whatsapp.number)
-    ? data.whatsapp.number
-    : sarvyanta.whatsappNumber +
-            "?text=" +
-            encodeURIComponent(
-                "Hi Sarvyanta, I am interested in the services offered by " +
-                data.businessName +
-                "."
-            );
+    "https://wa.me/" +
+    (
+        data.whatsapp &&
+        data.whatsapp.owner === "business" &&
+        data.whatsapp.number
+            ? data.whatsapp.number
+            : sarvyanta.whatsappNumber
+    ) +
+    "?text=" +
+    encodeURIComponent(
+        "Hi Sarvyanta, I am interested in the services offered by " +
+        data.businessName +
+        "."
+    );
 
         enquireButton.target = "_blank";
         enquireButton.id = "servicesWhatsappButton";
