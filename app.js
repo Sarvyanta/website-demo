@@ -44,7 +44,9 @@ Promise.all([
     }
 
     if (data.business?.logo) {
-        logoElement.src = data.business.logo;
+        logoElement.src =
+            "businesses/" + businessId + "/" + data.business.logo;
+
         logoElement.alt = (data.business.name || "Business") + " logo";
 
         logoElement.onerror = () => {
@@ -143,7 +145,9 @@ Promise.all([
 
                 const image = document.createElement("img");
 
-                image.src = product.image;
+                image.src =
+                    "businesses/" + businessId + "/" + product.image;
+
                 image.alt = product.name;
 
                 image.onerror = () => {
@@ -212,7 +216,8 @@ Promise.all([
 
             const img = document.createElement("img");
 
-            img.src = image;
+            img.src =
+                "businesses/" + businessId + "/" + image;
 
             img.alt =
                 (data.business?.name || "Business") +
