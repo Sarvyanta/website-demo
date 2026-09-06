@@ -139,16 +139,22 @@ Promise.all([
         const orderButton = document.createElement("a");
 
         orderButton.textContent = "Order on WhatsApp";
-        orderButton.href =
-            "https://wa.me/" +
-            sarvyanta.whatsappNumber +
-            "?text=" +
-            encodeURIComponent(
-                "Hi Sarvyanta, I want to order a product from " +
-                data.businessName +
-                "."
-            );
-
+        
+orderButton.href =
+    "https://wa.me/" +
+    (
+        data.whatsapp &&
+        data.whatsapp.owner === "business" &&
+        data.whatsapp.number
+            ? data.whatsapp.number
+            : sarvyanta.whatsappNumber
+    ) +
+    "?text=" +
+    encodeURIComponent(
+        "Hi Sarvyanta, I want to order a product from " +
+        data.businessName +
+        "."
+    );
         orderButton.target = "_blank";
         orderButton.id = "productsWhatsappButton";
 
