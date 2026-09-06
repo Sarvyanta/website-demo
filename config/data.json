@@ -1,12 +1,20 @@
 {
-  "businessName": "Royal Bake House",
-  "tagline": "Freshly baked. Made with love.",
-  "description": "Fresh cakes, pastries and custom desserts for every occasion.",
-  "logo": "https://placehold.co/300x300?text=BAKERY",
+  "business": {
+    "name": "Royal Bake House",
+    "tagline": "Freshly baked. Made with love.",
+    "description": "Fresh cakes, pastries and custom desserts for every occasion.",
+    "logo": "https://placehold.co/300x300?text=BAKERY"
+  },
+
+  "contact": {
+    "phone": "",
+    "location": ""
+  },
+
   "whatsapp": {
-  "number": "XXXXXXXXXX",
-  "owner": "business"
-},
+    "number": "XXXXXXXXXX",
+    "owner": "business"
+  },
 
   "services": [
     "Custom Birthday Cakes",
@@ -38,6 +46,8 @@
     "https://placehold.co/600x400?text=Bakery+2"
   ],
 
-  "instagram": "https://instagram.com/example",
-  "facebook": "https://facebook.com/example"
+  "social": {
+    "instagram": "https://instagram.com/example",
+    "facebook": "https://facebook.com/example"
+  }
 }
