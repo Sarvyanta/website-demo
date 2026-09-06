@@ -1,4 +1,5 @@
 Promise.all([
+    let whatsappNumber = null;
     fetch("config/data.json").then(response => response.json()),
     fetch("config/sarvyanta.json").then(response => response.json())
 ])
