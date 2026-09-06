@@ -4,33 +4,36 @@ Promise.all([
 ])
 .then(([data, sarvyanta]) => {
 
+    const sections = data.sections || {};
+
     // Business Information
     const businessName = document.getElementById("businessName");
     const tagline = document.getElementById("tagline");
     const description = document.getElementById("description");
     const logoElement = document.getElementById("businessLogo");
 
-    if (data.business && data.business.name) {
+    if (data.business?.name) {
         businessName.textContent = data.business.name;
     } else {
         businessName.style.display = "none";
     }
 
-    if (data.business && data.business.tagline) {
+    if (data.business?.tagline) {
         tagline.textContent = data.business.tagline;
     } else {
         tagline.style.display = "none";
     }
 
-    if (data.business && data.business.description) {
+    if (sections.about !== false && data.business?.description) {
         description.textContent = data.business.description;
     } else {
         document.getElementById("about").style.display = "none";
+        document.getElementById("navAbout").style.display = "none";
     }
 
-    if (data.business && data.business.logo) {
+    if (data.business?.logo) {
         logoElement.src = data.business.logo;
-        logoElement.alt = data.business.name + " logo";
+        logoElement.alt = (data.business.name || "Business") + " logo";
 
         logoElement.onerror = () => {
             logoElement.style.display = "none";
@@ -44,24 +47,22 @@ Promise.all([
     const phoneElement = document.getElementById("phone");
     const locationElement = document.getElementById("location");
 
-    if (data.contact && data.contact.phone) {
+    if (data.contact?.phone) {
         phoneElement.textContent = "Phone: " + data.contact.phone;
     } else {
         phoneElement.style.display = "none";
     }
 
-    if (data.contact && data.contact.location) {
+    if (data.contact?.location) {
         locationElement.textContent = "Location: " + data.contact.location;
     } else {
         locationElement.style.display = "none";
     }
 
 
-    // WhatsApp Recipient
+    // WhatsApp
     const whatsappNumber =
-        data.whatsapp &&
-        data.whatsapp.owner === "business" &&
-        data.whatsapp.number
+        data.whatsapp?.owner === "business" && data.whatsapp?.number
             ? data.whatsapp.number
             : sarvyanta.whatsappNumber;
 
@@ -69,13 +70,17 @@ Promise.all([
     // Services
     const servicesSection = document.getElementById("services");
     const servicesList = document.getElementById("servicesList");
+    const navServices = document.getElementById("navServices");
 
-    if (data.services && data.services.length > 0) {
+    if (
+        sections.services !== false &&
+        data.services &&
+        data.services.length > 0
+    ) {
 
         data.services.forEach(service => {
 
             const listItem = document.createElement("li");
-
             listItem.textContent = service;
 
             servicesList.appendChild(listItem);
@@ -101,15 +106,22 @@ Promise.all([
         servicesSection.appendChild(enquireButton);
 
     } else {
+
         servicesSection.style.display = "none";
+        navServices.style.display = "none";
     }
 
 
     // Products
     const productsSection = document.getElementById("products");
     const productsList = document.getElementById("productsList");
+    const navProducts = document.getElementById("navProducts");
 
-    if (data.products && data.products.length > 0) {
+    if (
+        sections.products !== false &&
+        data.products &&
+        data.products.length > 0
+    ) {
 
         data.products.forEach(product => {
 
@@ -121,6 +133,10 @@ Promise.all([
 
                 image.src = product.image;
                 image.alt = product.name;
+
+                image.onerror = () => {
+                    image.style.display = "none";
+                };
 
                 listItem.appendChild(image);
             }
@@ -163,15 +179,22 @@ Promise.all([
         productsSection.appendChild(orderButton);
 
     } else {
+
         productsSection.style.display = "none";
+        navProducts.style.display = "none";
     }
 
 
     // Gallery
     const gallerySection = document.getElementById("gallery");
     const galleryList = document.getElementById("galleryList");
+    const navGallery = document.getElementById("navGallery");
 
-    if (data.gallery && data.gallery.length > 0) {
+    if (
+        sections.gallery !== false &&
+        data.gallery &&
+        data.gallery.length > 0
+    ) {
 
         data.gallery.forEach(image => {
 
@@ -180,14 +203,29 @@ Promise.all([
             img.src = image;
 
             img.alt =
-                data.business.name +
+                (data.business?.name || "Business") +
                 " gallery image";
+
+            img.onerror = () => {
+                img.style.display = "none";
+            };
 
             galleryList.appendChild(img);
         });
 
     } else {
+
         gallerySection.style.display = "none";
+        navGallery.style.display = "none";
+    }
+
+
+    // Contact Section
+    const contactSection = document.getElementById("contact");
+
+    if (sections.contact === false) {
+        contactSection.style.display = "none";
+        document.getElementById("navContact").style.display = "none";
     }
 
 
@@ -202,11 +240,9 @@ Promise.all([
 
     let hasSocialLinks = false;
 
-    if (data.social && data.social.instagram) {
+    if (data.social?.instagram) {
 
-        instagramButton.href =
-            data.social.instagram;
-
+        instagramButton.href = data.social.instagram;
         hasSocialLinks = true;
 
     } else {
@@ -214,11 +250,9 @@ Promise.all([
         instagramButton.style.display = "none";
     }
 
-    if (data.social && data.social.facebook) {
+    if (data.social?.facebook) {
 
-        facebookButton.href =
-            data.social.facebook;
-
+        facebookButton.href = data.social.facebook;
         hasSocialLinks = true;
 
     } else {
@@ -235,7 +269,7 @@ Promise.all([
     const whatsappButton =
         document.getElementById("whatsappButton");
 
-    if (whatsappNumber) {
+    if (whatsappNumber && sections.contact !== false) {
 
         const message =
             "Hi Sarvyanta, I want to enquire about " +
@@ -257,49 +291,6 @@ Promise.all([
     // Sarvyanta Branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
-
-
-    // Dynamic Navigation
-    const navAbout =
-        document.getElementById("navAbout");
-
-    const navServices =
-        document.getElementById("navServices");
-
-    const navProducts =
-        document.getElementById("navProducts");
-
-    const navGallery =
-        document.getElementById("navGallery");
-
-
-    if (
-        navAbout &&
-        (!data.business || !data.business.description)
-    ) {
-        navAbout.style.display = "none";
-    }
-
-    if (
-        navServices &&
-        (!data.services || data.services.length === 0)
-    ) {
-        navServices.style.display = "none";
-    }
-
-    if (
-        navProducts &&
-        (!data.products || data.products.length === 0)
-    ) {
-        navProducts.style.display = "none";
-    }
-
-    if (
-        navGallery &&
-        (!data.gallery || data.gallery.length === 0)
-    ) {
-        navGallery.style.display = "none";
-    }
 
 })
 .catch(error => {
