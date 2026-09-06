@@ -1,6 +1,18 @@
+const params = new URLSearchParams(window.location.search);
+
+const businessId = params.get("business") || "bakery";
+
 Promise.all([
-    fetch("config/data.json").then(response => response.json()),
-    fetch("config/sarvyanta.json").then(response => response.json())
+    fetch("businesses/" + businessId + "/config/data.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Business configuration not found: " + businessId);
+            }
+            return response.json();
+        }),
+
+    fetch("config/sarvyanta.json")
+        .then(response => response.json())
 ])
 .then(([data, sarvyanta]) => {
 
