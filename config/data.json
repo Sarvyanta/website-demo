@@ -1,23 +1,23 @@
 {
   "business": {
-    "name": "Royal Bake House",
-    "category": "Bakery",
-    "tagline": "Freshly baked. Made with love.",
-    "description": "Fresh cakes, pastries and custom desserts for every occasion.",
-    "logo": "https://placehold.co/300x300?text=BAKERY"
+    "name": "Style Studio",
+    "category": "Salon",
+    "tagline": "Look good. Feel confident.",
+    "description": "Professional hair, beauty and styling services for men and women.",
+    "logo": "https://placehold.co/300x300?text=SALON"
   },
 
   "sections": {
     "about": true,
-    "services": false,
-    "products": true,
+    "services": true,
+    "products": false,
     "gallery": true,
     "contact": true
   },
 
   "contact": {
-    "phone": "",
-    "location": ""
+    "phone": "0000000000",
+    "location": "Hyderabad"
   },
 
   "whatsapp": {
@@ -26,33 +26,19 @@
   },
 
   "services": [
-    "Custom Birthday Cakes",
-    "Wedding Cakes",
-    "Theme Cakes",
-    "Bulk Orders"
+    "Haircut & Styling",
+    "Hair Coloring",
+    "Facial & Skin Care",
+    "Bridal Makeup",
+    "Manicure & Pedicure"
   ],
 
-  "products": [
-    {
-      "name": "Chocolate Cake",
-      "price": 650,
-      "image": "https://placehold.co/600x400?text=Chocolate+Cake"
-    },
-    {
-      "name": "Red Velvet Cake",
-      "price": 750,
-      "image": "https://placehold.co/600x400?text=Red+Velvet"
-    },
-    {
-      "name": "Black Forest Cake",
-      "price": 700,
-      "image": "https://placehold.co/600x400?text=Black+Forest"
-    }
-  ],
+  "products": [],
 
   "gallery": [
-    "https://placehold.co/600x400?text=Bakery+1",
-    "https://placehold.co/600x400?text=Bakery+2"
+    "https://placehold.co/600x400?text=Salon+1",
+    "https://placehold.co/600x400?text=Salon+2",
+    "https://placehold.co/600x400?text=Salon+3"
   ],
 
   "social": {
