@@ -4,39 +4,33 @@ Promise.all([
 ])
 .then(([data, sarvyanta]) => {
 
-    // Business Name
+    // Business Information
     const businessName = document.getElementById("businessName");
+    const tagline = document.getElementById("tagline");
+    const description = document.getElementById("description");
+    const logoElement = document.getElementById("businessLogo");
 
-    if (data.businessName) {
-        businessName.textContent = data.businessName;
+    if (data.business && data.business.name) {
+        businessName.textContent = data.business.name;
     } else {
         businessName.style.display = "none";
     }
 
-    // Tagline
-    const tagline = document.getElementById("tagline");
-
-    if (data.tagline) {
-        tagline.textContent = data.tagline;
+    if (data.business && data.business.tagline) {
+        tagline.textContent = data.business.tagline;
     } else {
         tagline.style.display = "none";
     }
 
-    // Description
-    const description = document.getElementById("description");
-
-    if (data.description) {
-        description.textContent = data.description;
+    if (data.business && data.business.description) {
+        description.textContent = data.business.description;
     } else {
         document.getElementById("about").style.display = "none";
     }
 
-    // Logo
-    const logoElement = document.getElementById("businessLogo");
-
-    if (data.logo) {
-        logoElement.src = data.logo;
-        logoElement.alt = data.businessName + " logo";
+    if (data.business && data.business.logo) {
+        logoElement.src = data.business.logo;
+        logoElement.alt = data.business.name + " logo";
 
         logoElement.onerror = () => {
             logoElement.style.display = "none";
@@ -45,23 +39,32 @@ Promise.all([
         logoElement.style.display = "none";
     }
 
-    // Phone
-    const phoneElement = document.getElementById("phone");
 
-    if (data.phone) {
-        phoneElement.textContent = "Phone: " + data.phone;
+    // Contact
+    const phoneElement = document.getElementById("phone");
+    const locationElement = document.getElementById("location");
+
+    if (data.contact && data.contact.phone) {
+        phoneElement.textContent = "Phone: " + data.contact.phone;
     } else {
         phoneElement.style.display = "none";
     }
 
-    // Location
-    const locationElement = document.getElementById("location");
-
-    if (data.location) {
-        locationElement.textContent = "Location: " + data.location;
+    if (data.contact && data.contact.location) {
+        locationElement.textContent = "Location: " + data.contact.location;
     } else {
         locationElement.style.display = "none";
     }
+
+
+    // WhatsApp Recipient
+    const whatsappNumber =
+        data.whatsapp &&
+        data.whatsapp.owner === "business" &&
+        data.whatsapp.number
+            ? data.whatsapp.number
+            : sarvyanta.whatsappNumber;
+
 
     // Services
     const servicesSection = document.getElementById("services");
@@ -70,29 +73,27 @@ Promise.all([
     if (data.services && data.services.length > 0) {
 
         data.services.forEach(service => {
+
             const listItem = document.createElement("li");
+
             listItem.textContent = service;
+
             servicesList.appendChild(listItem);
         });
 
         const enquireButton = document.createElement("a");
 
         enquireButton.textContent = "Enquire on WhatsApp";
+
         enquireButton.href =
-    "https://wa.me/" +
-    (
-        data.whatsapp &&
-        data.whatsapp.owner === "business" &&
-        data.whatsapp.number
-            ? data.whatsapp.number
-            : sarvyanta.whatsappNumber
-    ) +
-    "?text=" +
-    encodeURIComponent(
-        "Hi Sarvyanta, I am interested in the services offered by " +
-        data.businessName +
-        "."
-    );
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(
+                "Hi Sarvyanta, I am interested in the services offered by " +
+                data.business.name +
+                "."
+            );
 
         enquireButton.target = "_blank";
         enquireButton.id = "servicesWhatsappButton";
@@ -102,6 +103,7 @@ Promise.all([
     } else {
         servicesSection.style.display = "none";
     }
+
 
     // Products
     const productsSection = document.getElementById("products");
@@ -114,6 +116,7 @@ Promise.all([
             const listItem = document.createElement("li");
 
             if (product.image) {
+
                 const image = document.createElement("img");
 
                 image.src = product.image;
@@ -123,13 +126,17 @@ Promise.all([
             }
 
             const name = document.createElement("strong");
+
             name.textContent = product.name;
 
             listItem.appendChild(name);
 
             if (product.price !== undefined && product.price !== null) {
+
                 const price = document.createElement("div");
+
                 price.textContent = "₹" + product.price;
+
                 listItem.appendChild(price);
             }
 
@@ -139,22 +146,17 @@ Promise.all([
         const orderButton = document.createElement("a");
 
         orderButton.textContent = "Order on WhatsApp";
-        
-orderButton.href =
-    "https://wa.me/" +
-    (
-        data.whatsapp &&
-        data.whatsapp.owner === "business" &&
-        data.whatsapp.number
-            ? data.whatsapp.number
-            : sarvyanta.whatsappNumber
-    ) +
-    "?text=" +
-    encodeURIComponent(
-        "Hi Sarvyanta, I want to order a product from " +
-        data.businessName +
-        "."
-    );
+
+        orderButton.href =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(
+                "Hi Sarvyanta, I want to order a product from " +
+                data.business.name +
+                "."
+            );
+
         orderButton.target = "_blank";
         orderButton.id = "productsWhatsappButton";
 
@@ -163,6 +165,7 @@ orderButton.href =
     } else {
         productsSection.style.display = "none";
     }
+
 
     // Gallery
     const gallerySection = document.getElementById("gallery");
@@ -175,7 +178,10 @@ orderButton.href =
             const img = document.createElement("img");
 
             img.src = image;
-            img.alt = data.businessName + " gallery image";
+
+            img.alt =
+                data.business.name +
+                " gallery image";
 
             galleryList.appendChild(img);
         });
@@ -184,24 +190,39 @@ orderButton.href =
         gallerySection.style.display = "none";
     }
 
+
     // Social Links
     const socialLinks = document.getElementById("socialLinks");
-    const instagramButton = document.getElementById("instagramButton");
-    const facebookButton = document.getElementById("facebookButton");
+
+    const instagramButton =
+        document.getElementById("instagramButton");
+
+    const facebookButton =
+        document.getElementById("facebookButton");
 
     let hasSocialLinks = false;
 
-    if (data.instagram) {
-        instagramButton.href = data.instagram;
+    if (data.social && data.social.instagram) {
+
+        instagramButton.href =
+            data.social.instagram;
+
         hasSocialLinks = true;
+
     } else {
+
         instagramButton.style.display = "none";
     }
 
-    if (data.facebook) {
-        facebookButton.href = data.facebook;
+    if (data.social && data.social.facebook) {
+
+        facebookButton.href =
+            data.social.facebook;
+
         hasSocialLinks = true;
+
     } else {
+
         facebookButton.style.display = "none";
     }
 
@@ -209,60 +230,83 @@ orderButton.href =
         socialLinks.style.display = "none";
     }
 
-    // Contact WhatsApp
-    const whatsappButton = document.getElementById("whatsappButton");
 
-    if (sarvyanta.whatsappNumber) {
+    // Contact WhatsApp
+    const whatsappButton =
+        document.getElementById("whatsappButton");
+
+    if (whatsappNumber) {
 
         const message =
             "Hi Sarvyanta, I want to enquire about " +
-            data.businessName +
+            data.business.name +
             ".";
 
-        
-            whatsappButton.href =
-    "https://wa.me/" +
-    (
-        data.whatsapp &&
-        data.whatsapp.owner === "business" &&
-        data.whatsapp.number
-            ? data.whatsapp.number
-            : sarvyanta.whatsappNumber
-    ) +
-    "?text=" +
-    encodeURIComponent(message);
+        whatsappButton.href =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
 
     } else {
+
         whatsappButton.style.display = "none";
     }
 
-    // Sarvyanta branding
+
+    // Sarvyanta Branding
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
 
-    // Dynamic Navigation
-    const navAbout = document.getElementById("navAbout");
-    const navServices = document.getElementById("navServices");
-    const navProducts = document.getElementById("navProducts");
-    const navGallery = document.getElementById("navGallery");
 
-    if (navAbout && !data.description) {
+    // Dynamic Navigation
+    const navAbout =
+        document.getElementById("navAbout");
+
+    const navServices =
+        document.getElementById("navServices");
+
+    const navProducts =
+        document.getElementById("navProducts");
+
+    const navGallery =
+        document.getElementById("navGallery");
+
+
+    if (
+        navAbout &&
+        (!data.business || !data.business.description)
+    ) {
         navAbout.style.display = "none";
     }
 
-    if (navServices && (!data.services || data.services.length === 0)) {
+    if (
+        navServices &&
+        (!data.services || data.services.length === 0)
+    ) {
         navServices.style.display = "none";
     }
 
-    if (navProducts && (!data.products || data.products.length === 0)) {
+    if (
+        navProducts &&
+        (!data.products || data.products.length === 0)
+    ) {
         navProducts.style.display = "none";
     }
 
-    if (navGallery && (!data.gallery || data.gallery.length === 0)) {
+    if (
+        navGallery &&
+        (!data.gallery || data.gallery.length === 0)
+    ) {
         navGallery.style.display = "none";
     }
 
 })
 .catch(error => {
-    console.error("Error loading website data:", error);
+
+    console.error(
+        "Error loading website data:",
+        error
+    );
+
 });
