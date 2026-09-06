@@ -8,11 +8,11 @@
   },
 
   "sections": {
-    "about": true,
-    "services": true,
-    "products": true,
-    "gallery": true,
-    "contact": true
+  "about": true,
+  "services": false,
+  "products": true,
+  "gallery": true,
+  "contact": true
   },
 
   "contact": {
