@@ -3,6 +3,10 @@
   "tagline": "Freshly baked. Made with love.",
   "description": "Fresh cakes, pastries and custom desserts for every occasion.",
   "logo": "https://placehold.co/300x300?text=BAKERY",
+  "whatsapp": {
+  "number": "XXXXXXXXXX",
+  "owner": "business"
+},
 
   "services": [
     "Custom Birthday Cakes",
