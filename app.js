@@ -219,11 +219,18 @@ orderButton.href =
             data.businessName +
             ".";
 
-        whatsappButton.href =
-            "https://wa.me/" +
-            sarvyanta.whatsappNumber +
-            "?text=" +
-            encodeURIComponent(message);
+        
+            whatsappButton.href =
+    "https://wa.me/" +
+    (
+        data.whatsapp &&
+        data.whatsapp.owner === "business" &&
+        data.whatsapp.number
+            ? data.whatsapp.number
+            : sarvyanta.whatsappNumber
+    ) +
+    "?text=" +
+    encodeURIComponent(message);
 
     } else {
         whatsappButton.style.display = "none";
