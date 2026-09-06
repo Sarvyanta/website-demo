@@ -221,6 +221,28 @@ Promise.all([
     document.querySelector("footer p").textContent =
         sarvyanta.collaborationText;
 
+        // Dynamic Navigation
+
+    const navAbout = document.getElementById("navAbout");
+    const navServices = document.getElementById("navServices");
+    const navProducts = document.getElementById("navProducts");
+    const navGallery = document.getElementById("navGallery");
+
+    if (navAbout && !data.description) {
+        navAbout.style.display = "none";
+    }
+
+    if (navServices && (!data.services || data.services.length === 0)) {
+        navServices.style.display = "none";
+    }
+
+    if (navProducts && (!data.products || data.products.length === 0)) {
+        navProducts.style.display = "none";
+    }
+
+    if (navGallery && (!data.gallery || data.gallery.length === 0)) {
+        navGallery.style.display = "none";
+    }
 })
 .catch(error => {
     console.error("Error loading website data:", error);
