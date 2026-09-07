@@ -1,0 +1,37 @@
+{
+  "business": {
+    "id": "sravyas-bridal-makeup",
+    "name": "Sravya's Bridal makeup",
+    "category": "Bridal makeup",
+    "tagline": "A touch of elegance for your special day",
+    "description": "Your wedding day is one of the most beautiful moments of your life, and you deserve to look and feel your absolute best. At Shravya’s Bridal Makeup, we create elegant, flawless, and long-lasting bridal looks that beautifully enhance your natural features.",
+    "logo": "assets/logo/1000193051.png"
+  },
+  "sections": {
+    "about": true,
+    "services": true,
+    "products": false,
+    "gallery": true,
+    "contact": true
+  },
+  "contact": {
+    "phone": "1234567890",
+    "location": "Hyderabad"
+  },
+  "whatsapp": {
+    "number": "",
+    "owner": "sarvyanta"
+  },
+  "services": [
+    "Bridal Makeup",
+    "Engagement & Reception Makeup",
+    "Traditional & Modern Bridal Looks",
+    "Hairstyling & Draping"
+  ],
+  "products": [],
+  "gallery": ["assets/gallery/1000193052.png"],
+  "social": {
+    "instagram": "",
+    "facebook": ""
+  }
+}
