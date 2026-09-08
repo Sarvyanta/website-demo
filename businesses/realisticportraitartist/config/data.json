@@ -1,0 +1,45 @@
+{
+  "business": {
+    "id": "realisticportraitartist",
+    "name": "realistic_portrait_artist",
+    "category": "Custom Portrait Artist",
+    "tagline": "“Your Memories, Handcrafted Into Art.”",
+    "description": "Turning Memories Into Timeless Art.\nWelcome to Realistic Portrait Artist, a Hyderabad-based custom portrait studio specializing in beautifully detailed, handmade portraits created from your favorite photographs.\nEvery portrait is carefully drawn by hand using premium graphite, charcoal, and colored pencils, with special attention to facial expressions, fine details, textures, and the emotions that make each person unique.\nWhether you're looking for a meaningful birthday gift, anniversary present, wedding gift, family portrait, memorial artwork, couple portrait, or a special keepsake, we transform your precious memories into artwork you can cherish for years.",
+    "logo": "assets/logo/1000193296.png"
+  },
+  "sections": {
+    "about": true,
+    "services": true,
+    "products": true,
+    "gallery": true,
+    "contact": true
+  },
+  "contact": {
+    "phone": "8790013242",
+    "location": "Hyderabad"
+  },
+  "whatsapp": {
+    "number": "8790013242",
+    "owner": "business"
+  },
+  "services": [
+    "✨ HANDMADE PORTRAIT COMMISSION PRICE LIST ✨",
+    "🖤 GRAPHITE & CHARCOAL PORTRAITS",
+    "🎨 COLORED PENCIL PORTRAITS",
+    "‎📌 Final pricing may vary depending on background complexity, number of subjects & level of detailing. ‎📌 50% advance required to confirm your commission slot. ‎📌 Please book at least 15–20 days in advance. ‎📌 Courier/shipping charges are additional. ‎📌 Shipping available worldwide ‎ ‎"
+  ],
+  "products": [],
+  "gallery": [
+    "assets/gallery/1000193282.jpg",
+    "assets/gallery/1000193283.jpg",
+    "assets/gallery/1000193284.jpg",
+    "assets/gallery/1000193281.jpg",
+    "assets/gallery/1000193270.jpg",
+    "assets/gallery/1000193257.jpg",
+    "assets/gallery/1000193259.jpg"
+  ],
+  "social": {
+    "instagram": "https://www.instagram.com/realistic_portrait_artist?stkn=MWdrc3E1a2V1ZHE0dQ==",
+    "facebook": ""
+  }
+}
