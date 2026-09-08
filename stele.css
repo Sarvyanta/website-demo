@@ -1,4 +1,4 @@
-/* =========================================
+ /* =========================================
    SARVYANTA BUSINESS WEBSITE ENGINE
    Professional UI
    ========================================= */
@@ -78,8 +78,9 @@ header p {
     color: rgba(255, 255, 255, 0.85);
 }
 
-/* Business logo */
-/* Business logo */
+/* =========================================
+   BUSINESS LOGO
+   ========================================= */
 
 #businessLogo {
     position: relative;
@@ -300,45 +301,21 @@ section h2::after {
     padding: 13px 22px;
     border-radius: 10px;
     text-decoration: none;
+    background: var(--primary);
     color: white;
     font-weight: 700;
     font-size: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
     transition: all 0.2s ease;
-}
-
-/* WhatsApp Buttons */
-
-#servicesWhatsappButton,
-#productsWhatsappButton,
-#whatsappButton {
-    background: var(--primary);
 }
 
 #servicesWhatsappButton:hover,
 #productsWhatsappButton:hover,
-#whatsappButton:hover {
+#whatsappButton:hover,
+#instagramButton:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
-}
-
-/* Instagram Button */
-
-#instagramButton {
-    background: linear-gradient(
-        45deg,
-        #f58529,
-        #dd2a7b,
-        #8134af,
-        #515bd4
-    );
-}
-
-#instagramButton:hover {
-    transform: translateY(-2px);
-    opacity: 0.92;
-    box-shadow: 0 8px 20px rgba(221, 42, 123, 0.28);
 }
 
 /* =========================================
@@ -487,7 +464,8 @@ footer p {
 
     #servicesWhatsappButton,
     #productsWhatsappButton,
-    #whatsappButton {
+    #whatsappButton,
+    #instagramButton {
         width: 100%;
         text-align: center;
     }
@@ -521,4 +499,4 @@ footer p {
         padding: 7px 9px;
     }
 
-}
+   }
