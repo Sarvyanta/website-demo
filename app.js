@@ -1,643 +1,577 @@
+document.addEventListener("DOMContentLoaded", function () {
 
-* {
-  box-sizing: border-box;
-}
+  const params = new URLSearchParams(window.location.search);
 
-html {
-  scroll-behavior: smooth;
-}
+  const businessId =
+    params.get("business") || "realisticportraitartist";
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f6f8;
-  color: #222;
-}
+  const businessFolder =
+    "businesses/" + businessId + "/";
 
+  const configUrl =
+    businessFolder + "config/data.json";
 
-/* =========================
-   HEADER
-========================= */
+  let businessData = null;
+  let galleryImages = [];
+  let currentImage = 0;
 
-#topBar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  function $(id) {
+    return document.getElementById(id);
+  }
 
-  background: linear-gradient(
-    135deg,
-    #111827,
-    #1e3a8a
-  );
+  function resolvePath(path) {
+    if (!path) return "";
 
-  color: white;
+    path = String(path);
 
-  box-shadow:
-    0 3px 12px rgba(0, 0, 0, 0.18);
-}
+    if (
+      path.startsWith("http://") ||
+      path.startsWith("https://") ||
+      path.startsWith("//") ||
+      path.startsWith("/")
+    ) {
+      return path;
+    }
 
-.header-inner {
-  max-width: 1100px;
-  margin: auto;
-  padding: 14px 20px;
-}
+    return businessFolder + path;
+  }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+  function formatPrice(price) {
+    if (price === undefined || price === null || price === "") {
+      return "";
+    }
 
-#businessLogo {
-  width: 65px;
-  height: 65px;
+    if (typeof price === "number") {
+      return "₹" + price.toLocaleString("en-IN");
+    }
 
-  object-fit: cover;
+    return String(price);
+  }
 
-  border-radius: 50%;
+  function getWhatsAppNumber() {
+    if (!businessData || !businessData.whatsapp) {
+      return "";
+    }
 
-  background: white;
+    return String(
+      businessData.whatsapp.number || ""
+    ).replace(/\D/g, "");
+  }
 
-  display: none;
-}
+  function createWhatsAppButton(message) {
+    const number = getWhatsAppNumber();
 
-#businessName {
-  margin: 0;
-  font-size: 25px;
-}
+    if (!number) return null;
 
-#tagline {
-  margin: 5px 0 0;
-  opacity: 0.85;
-}
+    const button = document.createElement("a");
 
+    button.className = "section-whatsapp";
 
-/* =========================
-   NAVIGATION
-========================= */
+    button.href =
+      "https://wa.me/" +
+      number +
+      "?text=" +
+      encodeURIComponent(message);
 
-#navigation {
-  display: flex;
+    button.target = "_blank";
+    button.rel = "noopener noreferrer";
+    button.textContent = "WhatsApp";
 
-  justify-content: center;
+    return button;
+  }
 
-  gap: 5px;
+  fetch(configUrl)
+    .then(function (response) {
 
-  padding: 8px 10px;
+      if (!response.ok) {
+        throw new Error(
+          "Unable to load business data: " + configUrl
+        );
+      }
 
-  overflow-x: auto;
-}
+      return response.json();
+    })
+    .then(function (data) {
 
-#navigation a {
-  color: white;
+      businessData = data;
 
-  text-decoration: none;
+      renderBusiness();
+    })
+    .catch(function (error) {
 
-  padding: 9px 13px;
+      console.error("Sarvyanta error:", error);
 
-  border-radius: 6px;
+      $("businessName").textContent =
+        "Unable to load business";
 
-  white-space: nowrap;
-}
+      $("description").textContent =
+        error.message;
+    });
 
-#navigation a:hover {
-  background: rgba(
-    255,
-    255,
-    255,
-    0.15
-  );
-}
+  function renderBusiness() {
 
+    const business =
+      businessData.business || {};
 
-/* =========================
-   MAIN
-========================= */
+    const sections =
+      businessData.sections || {};
 
-main {
-  width: min(
-    1050px,
-    calc(100% - 30px)
-  );
+    document.title =
+      business.name || "Sarvyanta";
 
-  margin: 25px auto;
-}
+    $("businessName").textContent =
+      business.name || "";
 
-.section-card {
-  background: white;
+    $("tagline").textContent =
+      business.tagline || "";
 
-  border-radius: 12px;
+    $("description").textContent =
+      business.description || "";
 
-  padding: 25px;
+    if (business.logo) {
 
-  margin-bottom: 22px;
+      const logo = $("businessLogo");
 
-  box-shadow:
-    0 3px 15px rgba(
-      0,
-      0,
-      0,
-      0.07
+      logo.src =
+        resolvePath(business.logo);
+
+      logo.style.display = "block";
+    }
+
+    if (sections.about === false) {
+      $("about").style.display = "none";
+    }
+
+    if (sections.services === false) {
+      $("services").style.display = "none";
+    } else {
+      renderServices();
+    }
+
+    if (sections.products === false) {
+      $("products").style.display = "none";
+    } else {
+      renderProducts();
+      renderNotes();
+    }
+
+    if (sections.gallery === false) {
+      $("gallery").style.display = "none";
+    } else {
+      renderGallery();
+    }
+
+    if (sections.contact === false) {
+      $("contact").style.display = "none";
+    } else {
+      renderContact();
+    }
+
+    renderSocial();
+  }
+
+  function renderServices() {
+
+    const container = $("servicesList");
+    const whatsappContainer = $("servicesWhatsapp");
+
+    container.innerHTML = "";
+    whatsappContainer.innerHTML = "";
+
+    const services =
+      businessData.services || [];
+
+    if (!Array.isArray(services) || services.length === 0) {
+      return;
+    }
+
+    services.forEach(function (service) {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "service-item";
+
+      const title =
+        document.createElement("h3");
+
+      title.textContent = service;
+
+      item.appendChild(title);
+      container.appendChild(item);
+    });
+
+    const whatsapp =
+      createWhatsAppButton(
+        "Hi, I am interested in your portrait services."
+      );
+
+    if (whatsapp) {
+      whatsappContainer.appendChild(whatsapp);
+    }
+  }
+
+  function renderProducts() {
+
+    const container = $("productsList");
+    const whatsappContainer = $("productsWhatsapp");
+
+    container.innerHTML = "";
+    whatsappContainer.innerHTML = "";
+
+    const products =
+      businessData.products || [];
+
+    if (!Array.isArray(products) || products.length === 0) {
+      return;
+    }
+
+    products.forEach(function (product) {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "product-card";
+
+      const title =
+        document.createElement("h3");
+
+      title.textContent =
+        product.name || "";
+
+      card.appendChild(title);
+
+      if (
+        product.price !== undefined &&
+        product.price !== null
+      ) {
+
+        const price =
+          document.createElement("div");
+
+        price.className =
+          "product-price";
+
+        price.textContent =
+          formatPrice(product.price);
+
+        card.appendChild(price);
+      }
+
+      if (product.description) {
+
+        const description =
+          document.createElement("p");
+
+        description.textContent =
+          product.description;
+
+        card.appendChild(description);
+      }
+
+      container.appendChild(card);
+    });
+
+    const whatsapp =
+      createWhatsAppButton(
+        "Hi, I am interested in your portrait products."
+      );
+
+    if (whatsapp) {
+      whatsappContainer.appendChild(whatsapp);
+    }
+  }
+
+  function renderNotes() {
+
+    const container =
+      $("productsNotes");
+
+    container.innerHTML = "";
+
+    const notes =
+      businessData.productsNotes || [];
+
+    if (!Array.isArray(notes) || notes.length === 0) {
+      return;
+    }
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.className = "notes";
+
+    const title =
+      document.createElement("div");
+
+    title.className = "notes-title";
+    title.textContent = "Please Note";
+
+    wrapper.appendChild(title);
+
+    notes.forEach(function (note) {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "note";
+      item.textContent = "📌 " + note;
+
+      wrapper.appendChild(item);
+    });
+
+    container.appendChild(wrapper);
+  }
+
+  function renderGallery() {
+
+    const container =
+      $("galleryList");
+
+    container.innerHTML = "";
+
+    const gallery =
+      businessData.gallery || [];
+
+    if (!Array.isArray(gallery) || gallery.length === 0) {
+      return;
+    }
+
+    galleryImages =
+      gallery
+        .map(function (item) {
+
+          if (typeof item === "string") {
+            return {
+              src: resolvePath(item),
+              title: ""
+            };
+          }
+
+          return {
+            src: resolvePath(
+              item.image ||
+              item.src ||
+              item.path ||
+              item.url ||
+              ""
+            ),
+            title: item.title || ""
+          };
+        })
+        .filter(function (item) {
+          return item.src;
+        });
+
+    galleryImages.forEach(function (image, index) {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "gallery-item";
+
+      const img =
+        document.createElement("img");
+
+      img.src = image.src;
+
+      img.alt =
+        image.title || "Portrait Artwork";
+
+      img.loading = "lazy";
+
+      img.addEventListener("click", function () {
+        openGallery(index);
+      });
+
+      item.appendChild(img);
+
+      if (image.title) {
+
+        const caption =
+          document.createElement("div");
+
+        caption.className =
+          "gallery-caption";
+
+        caption.textContent =
+          image.title;
+
+        item.appendChild(caption);
+      }
+
+      container.appendChild(item);
+    });
+  }
+
+  function openGallery(index) {
+
+    if (!galleryImages.length) return;
+
+    currentImage = index;
+
+    updateLightbox();
+
+    $("lightbox")
+      .classList
+      .add("active");
+  }
+
+  function updateLightbox() {
+
+    const image =
+      galleryImages[currentImage];
+
+    $("lightboxImage").src =
+      image.src;
+
+    $("lightboxImage").alt =
+      image.title || "Portrait Artwork";
+
+    $("lightboxCounter").textContent =
+      (currentImage + 1) +
+      " / " +
+      galleryImages.length;
+  }
+
+  function closeGallery() {
+
+    $("lightbox")
+      .classList
+      .remove("active");
+  }
+
+  function nextImage() {
+
+    if (!galleryImages.length) return;
+
+    currentImage =
+      (currentImage + 1) %
+      galleryImages.length;
+
+    updateLightbox();
+  }
+
+  function previousImage() {
+
+    if (!galleryImages.length) return;
+
+    currentImage =
+      (currentImage - 1 +
+        galleryImages.length) %
+      galleryImages.length;
+
+    updateLightbox();
+  }
+
+  $("lightboxClose")
+    .addEventListener("click", closeGallery);
+
+  $("lightboxNext")
+    .addEventListener("click", nextImage);
+
+  $("lightboxPrev")
+    .addEventListener("click", previousImage);
+
+  $("lightbox")
+    .addEventListener("click", function (event) {
+
+      if (event.target === $("lightbox")) {
+        closeGallery();
+      }
+    });
+
+  document.addEventListener("keydown", function (event) {
+
+    if (
+      !$("lightbox")
+        .classList
+        .contains("active")
+    ) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      closeGallery();
+    }
+
+    if (event.key === "ArrowRight") {
+      nextImage();
+    }
+
+    if (event.key === "ArrowLeft") {
+      previousImage();
+    }
+  });
+
+  function renderContact() {
+
+    const contact =
+      businessData.contact || {};
+
+    if (contact.phone) {
+      $("phone").textContent =
+        "Phone: " + contact.phone;
+    }
+
+    if (contact.location) {
+      $("location").textContent =
+        "Location: " + contact.location;
+    }
+
+    const number =
+      getWhatsAppNumber();
+
+    const button =
+      $("whatsappButton");
+
+    if (number) {
+
+      button.href =
+        "https://wa.me/" + number;
+
+      button.style.display =
+        "inline-block";
+
+    } else {
+
+      button.style.display =
+        "none";
+    }
+  }
+
+  function renderSocial() {
+
+    const social =
+      businessData.social || {};
+
+    setupSocial(
+      "instagramButton",
+      social.instagram
     );
-}
 
-.section-card h2 {
-  margin-top: 0;
-
-  margin-bottom: 18px;
-}
-
-
-/* =========================
-   ABOUT
-========================= */
-
-#description {
-  line-height: 1.75;
-
-  white-space: pre-line;
-}
-
-
-/* =========================
-   SERVICES
-========================= */
-
-#servicesList {
-  display: grid;
-
-  gap: 14px;
-}
-
-.service-item {
-  padding: 17px;
-
-  border: 1px solid #e5e7eb;
-
-  border-radius: 9px;
-
-  background: #fff;
-}
-
-.service-item h3 {
-  margin: 0;
-
-  line-height: 1.5;
-}
-
-
-/* =========================
-   SECTION WHATSAPP
-========================= */
-
-#servicesWhatsapp,
-#productsWhatsapp {
-  display: block;
-
-  margin-top: 18px;
-
-  width: 100%;
-}
-
-
-/*
-   IMPORTANT:
-   The WhatsApp button is NOT inside
-   the services/products grid.
-*/
-
-.section-whatsapp {
-  display: inline-block;
-
-  width: auto;
-
-  padding: 11px 18px;
-
-  background: #16a34a;
-
-  color: white;
-
-  border-radius: 8px;
-
-  text-decoration: none;
-
-  font-weight: bold;
-
-  line-height: 1.2;
-}
-
-.section-whatsapp:hover {
-  opacity: 0.9;
-}
-
-
-/* =========================
-   PRODUCTS
-========================= */
-
-#productsList {
-  display: grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(230px, 1fr)
+    setupSocial(
+      "facebookButton",
+      social.facebook
     );
-
-  gap: 15px;
-}
-
-.product-card {
-  border: 1px solid #e5e7eb;
-
-  border-radius: 10px;
-
-  padding: 18px;
-
-  background: white;
-}
-
-.product-card h3 {
-  margin-top: 0;
-
-  line-height: 1.4;
-}
-
-.product-price {
-  font-size: 21px;
-
-  font-weight: bold;
-
-  margin: 10px 0;
-}
-
-
-/* =========================
-   PRODUCT NOTES
-========================= */
-
-.notes {
-  margin-top: 20px;
-}
-
-.notes-title {
-  margin-bottom: 10px;
-
-  font-weight: bold;
-}
-
-.note {
-  padding: 10px 12px;
-
-  margin-bottom: 8px;
-
-  background: #f8fafc;
-
-  border-left:
-    3px solid #2563eb;
-
-  line-height: 1.5;
-}
-
-
-/* =========================
-   GALLERY
-========================= */
-
-.gallery-grid {
-  display: flex;
-
-  gap: 14px;
-
-  overflow-x: auto;
-
-  overflow-y: hidden;
-
-  padding:
-    5px 2px 12px;
-
-  scroll-behavior: smooth;
-
-  -webkit-overflow-scrolling:
-    touch;
-}
-
-.gallery-grid::-webkit-scrollbar {
-  height: 7px;
-}
-
-.gallery-grid::-webkit-scrollbar-track {
-  background: #eeeeee;
-
-  border-radius: 10px;
-}
-
-.gallery-grid::-webkit-scrollbar-thumb {
-  background: #aaaaaa;
-
-  border-radius: 10px;
-}
-
-.gallery-item {
-  flex:
-    0 0 220px;
-
-  height: 220px;
-
-  position: relative;
-
-  overflow: hidden;
-
-  border-radius: 10px;
-
-  background: #eeeeee;
-
-  cursor: pointer;
-}
-
-.gallery-item img {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-
-  transition:
-    transform 0.25s ease;
-}
-
-.gallery-item:hover img {
-  transform: scale(1.05);
-}
-
-.gallery-caption {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  padding: 8px;
-
-  color: white;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(0, 0, 0, 0.75)
-    );
-
-  font-size: 13px;
-}
-
-
-/* =========================
-   CONTACT
-========================= */
-
-.contact-buttons {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 10px;
-
-  margin-top: 18px;
-}
-
-.button {
-  display: inline-block;
-
-  padding: 11px 18px;
-
-  border-radius: 8px;
-
-  color: white;
-
-  text-decoration: none;
-
-  font-weight: bold;
-}
-
-.whatsapp {
-  background: #16a34a;
-}
-
-.instagram {
-  background: #c13584;
-}
-
-.facebook {
-  background: #1877f2;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-  text-align: center;
-
-  padding: 25px;
-
-  color: #666;
-}
-
-
-/* =========================
-   LIGHTBOX
-========================= */
-
-.lightbox {
-  display: none;
-
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 5000;
-
-  background:
-    rgba(0, 0, 0, 0.94);
-
-  align-items: center;
-
-  justify-content: center;
-}
-
-.lightbox.active {
-  display: flex;
-}
-
-#lightboxImage {
-  max-width: 90vw;
-
-  max-height: 85vh;
-
-  object-fit: contain;
-
-  user-select: none;
-}
-
-.lightbox-close {
-  position: absolute;
-
-  top: 15px;
-  right: 20px;
-
-  border: 0;
-
-  background: transparent;
-
-  color: white;
-
-  font-size: 42px;
-
-  cursor: pointer;
-
-  z-index: 2;
-
-  line-height: 1;
-}
-
-.lightbox-close:hover {
-  opacity: 0.75;
-}
-
-.lightbox-arrow {
-  position: absolute;
-
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  border: 0;
-
-  background:
-    rgba(255, 255, 255, 0.15);
-
-  color: white;
-
-  width: 50px;
-
-  height: 60px;
-
-  font-size: 45px;
-
-  cursor: pointer;
-
-  border-radius: 8px;
-
-  z-index: 2;
-}
-
-.lightbox-arrow:hover {
-  background:
-    rgba(255, 255, 255, 0.25);
-}
-
-.lightbox-arrow.left {
-  left: 15px;
-}
-
-.lightbox-arrow.right {
-  right: 15px;
-}
-
-#lightboxCounter {
-  position: absolute;
-
-  bottom: 20px;
-
-  color: white;
-
-  font-size: 14px;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 600px) {
-
-  .header-inner {
-    padding: 10px 15px;
   }
 
-  #businessLogo {
-    width: 50px;
+  function setupSocial(id, url) {
 
-    height: 50px;
+    const button = $(id);
+
+    if (!url) {
+
+      button.style.display =
+        "none";
+
+      return;
+    }
+
+    button.href = url;
+
+    button.style.display =
+      "inline-block";
   }
 
-  #businessName {
-    font-size: 19px;
-  }
-
-  #tagline {
-    font-size: 13px;
-  }
-
-  main {
-    width:
-      calc(100% - 20px);
-
-    margin: 15px auto;
-  }
-
-  .section-card {
-    padding: 18px;
-  }
-
-  .gallery-item {
-    flex:
-      0 0 180px;
-
-    height: 180px;
-  }
-
-  .contact-buttons {
-    flex-direction: column;
-  }
-
-  .button {
-    text-align: center;
-  }
-
-  /*
-     Section WhatsApp remains
-     compact on mobile too.
-  */
-
-  #servicesWhatsapp,
-  #productsWhatsapp {
-    width: 100%;
-  }
-
-  .section-whatsapp {
-    display: block;
-
-    width: 100%;
-
-    text-align: center;
-  }
-
-  .lightbox-arrow {
-    width: 40px;
-
-    height: 50px;
-
-    font-size: 35px;
-  }
-
-  #lightboxImage {
-    max-width: 94vw;
-
-    max-height: 80vh;
-  }
-}
+});
