@@ -1,7 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const params = new URLSearchParams(window.location.search);
-    const businessId = params.get("business") || "bakery";
+    /* =========================================
+       BUSINESS ID
+    ========================================= */
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const businessId =
+        params.get("business") ||
+        "realisticportraitartist";
+
+
+    /* =========================================
+       CONFIG PATHS
+    ========================================= */
 
     const businessConfigUrl =
         `businesses/${businessId}/config/data.json`;
@@ -10,23 +23,39 @@ document.addEventListener("DOMContentLoaded", function () {
         "config/sarvyanta.json";
 
 
-    // --------------------------------------------------
-    // BASIC ELEMENTS
-    // --------------------------------------------------
+    /* =========================================
+       HTML ELEMENTS
+    ========================================= */
 
-    const businessLogo = document.getElementById("businessLogo");
-    const businessName = document.getElementById("businessName");
-    const tagline = document.getElementById("tagline");
-    const description = document.getElementById("description");
+    const businessLogo =
+        document.getElementById("businessLogo");
 
-    const phone = document.getElementById("phone");
-    const location = document.getElementById("location");
+    const businessName =
+        document.getElementById("businessName");
 
-    const servicesList = document.getElementById("servicesList");
-    const productsList = document.getElementById("productsList");
-    const galleryList = document.getElementById("galleryList");
+    const tagline =
+        document.getElementById("tagline");
 
-    const whatsappButton = document.getElementById("whatsappButton");
+    const description =
+        document.getElementById("description");
+
+    const phone =
+        document.getElementById("phone");
+
+    const location =
+        document.getElementById("location");
+
+    const servicesList =
+        document.getElementById("servicesList");
+
+    const productsList =
+        document.getElementById("productsList");
+
+    const galleryList =
+        document.getElementById("galleryList");
+
+    const whatsappButton =
+        document.getElementById("whatsappButton");
 
     const instagramButton =
         document.getElementById("instagramButton");
@@ -38,241 +67,269 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("socialLinks");
 
 
-    // --------------------------------------------------
-    // LOAD CONFIGURATION
-    // --------------------------------------------------
+    /* =========================================
+       LOAD JSON
+    ========================================= */
 
     Promise.all([
-        fetch(businessConfigUrl).then(response => {
-            if (!response.ok) {
-                throw new Error(
-                    `Business configuration not found: ${businessConfigUrl}`
-                );
-            }
 
-            return response.json();
-        }),
+        fetch(businessConfigUrl)
+            .then(response => {
 
-        fetch(sarvyantaConfigUrl).then(response => {
-            if (!response.ok) {
-                throw new Error(
-                    `Sarvyanta configuration not found: ${sarvyantaConfigUrl}`
-                );
-            }
+                if (!response.ok) {
+                    throw new Error(
+                        "Business JSON not found: " +
+                        businessConfigUrl
+                    );
+                }
 
-            return response.json();
-        })
+                return response.json();
+            }),
+
+        fetch(sarvyantaConfigUrl)
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Sarvyanta JSON not found: " +
+                        sarvyantaConfigUrl
+                    );
+                }
+
+                return response.json();
+            })
+
     ])
 
     .then(([businessConfig, sarvyanta]) => {
 
+        /* =====================================
+           CONFIG SECTIONS
+        ===================================== */
+
         const business =
-            businessConfig.business || businessConfig;
+            businessConfig.business || {};
 
         const sections =
             businessConfig.sections || {};
 
+
         const services =
-            sections.services ||
-            businessConfig.services ||
-            [];
+            sections.services || [];
+
+        const servicesNotes =
+            sections.servicesNotes || [];
 
         const products =
-            sections.products ||
-            businessConfig.products ||
-            [];
+            sections.products || [];
+
+        const productsNotes =
+            sections.productsNotes || [];
 
         const gallery =
-            sections.gallery ||
-            businessConfig.gallery ||
-            [];
+            sections.gallery || [];
 
         const contact =
-            sections.contact ||
-            businessConfig.contact ||
-            {};
+            sections.contact || {};
 
         const social =
-            sections.social ||
-            businessConfig.social ||
-            {};
+            sections.social || {};
 
 
-        // --------------------------------------------------
-        // BUSINESS IDENTITY
-        // --------------------------------------------------
+        /* =====================================
+           BUSINESS NAME
+        ===================================== */
 
         if (business.name) {
-            businessName.textContent = business.name;
 
-            document.title = business.name;
+            businessName.textContent =
+                business.name;
+
+            document.title =
+                business.name;
         }
+
+
+        /* =====================================
+           TAGLINE
+        ===================================== */
 
         if (business.tagline) {
-            tagline.textContent = business.tagline;
+
+            tagline.textContent =
+                business.tagline;
         }
+
+
+        /* =====================================
+           DESCRIPTION
+        ===================================== */
 
         if (business.description) {
-            description.textContent = business.description;
+
+            description.textContent =
+                business.description;
         }
 
 
-        // --------------------------------------------------
-        // LOGO
-        // --------------------------------------------------
+        /* =====================================
+           LOGO
+        ===================================== */
 
         if (business.logo) {
 
-            businessLogo.src = business.logo;
+            businessLogo.src =
+                business.logo;
 
             businessLogo.alt =
                 `${business.name || "Business"} Logo`;
 
-            businessLogo.style.display = "block";
+            businessLogo.style.display =
+                "block";
 
         } else {
 
-            businessLogo.style.display = "none";
+            businessLogo.style.display =
+                "none";
         }
 
 
-        // --------------------------------------------------
-        // CONTACT
-        // --------------------------------------------------
+        /* =====================================
+           CONTACT
+        ===================================== */
 
-        let businessWhatsappNumber = null;
+        const phoneNumber =
+            contact.phone ||
+            business.phone ||
+            "";
+
+        if (phoneNumber) {
+
+            phone.textContent =
+                `Phone: ${phoneNumber}`;
+
+        } else {
+
+            phone.style.display =
+                "none";
+        }
+
+
+        const businessLocation =
+            contact.location ||
+            business.location ||
+            "";
+
+        if (businessLocation) {
+
+            location.textContent =
+                `Location: ${businessLocation}`;
+
+        } else {
+
+            location.style.display =
+                "none";
+        }
+
+
+        /* =====================================
+           WHATSAPP
+        ===================================== */
+
+        let whatsappNumber = "";
+
 
         if (
             businessConfig.whatsapp &&
             businessConfig.whatsapp.owner === "business" &&
             businessConfig.whatsapp.number
         ) {
-            businessWhatsappNumber =
+
+            whatsappNumber =
                 businessConfig.whatsapp.number;
         }
+
 
         if (
             contact.whatsapp &&
             typeof contact.whatsapp === "object" &&
             contact.whatsapp.number
         ) {
-            businessWhatsappNumber =
+
+            whatsappNumber =
                 contact.whatsapp.number;
         }
 
-        if (contact.phone) {
 
-            phone.textContent =
-                `Phone: ${contact.phone}`;
+        if (!whatsappNumber) {
 
-        } else if (business.phone) {
-
-            phone.textContent =
-                `Phone: ${business.phone}`;
-
-        } else {
-
-            phone.style.display = "none";
+            whatsappNumber =
+                sarvyanta.whatsappNumber || "";
         }
-
-
-        if (contact.location) {
-
-            location.textContent =
-                `Location: ${contact.location}`;
-
-        } else if (business.location) {
-
-            location.textContent =
-                `Location: ${business.location}`;
-
-        } else {
-
-            location.style.display = "none";
-        }
-
-
-        // --------------------------------------------------
-        // WHATSAPP NUMBER
-        // --------------------------------------------------
-
-        const globalWhatsappNumber =
-            sarvyanta.whatsappNumber || "";
-
-        const whatsappNumber =
-            businessWhatsappNumber ||
-            globalWhatsappNumber;
 
 
         if (whatsappNumber) {
 
-            const cleanNumber =
-                String(whatsappNumber)
-                    .replace(/\D/g, "");
-
             whatsappButton.href =
-                `https://wa.me/${cleanNumber}`;
-
-            whatsappButton.target = "_blank";
-
-            whatsappButton.rel =
-                "noopener noreferrer";
+                createWhatsappUrl(
+                    whatsappNumber,
+                    "Hi, I would like to know more about your services."
+                );
 
             whatsappButton.style.display =
                 "inline-block";
 
         } else {
 
-            whatsappButton.style.display = "none";
+            whatsappButton.style.display =
+                "none";
         }
 
 
-        // --------------------------------------------------
-        // SERVICES
-        // --------------------------------------------------
+        /* =====================================
+           SERVICES
+        ===================================== */
 
         servicesList.innerHTML = "";
 
-        if (Array.isArray(services) && services.length > 0) {
+
+        if (
+            Array.isArray(services) &&
+            services.length > 0
+        ) {
 
             services.forEach(service => {
 
                 const li =
                     document.createElement("li");
 
-                if (typeof service === "string") {
 
-                    li.textContent = service;
+                if (
+                    typeof service === "string"
+                ) {
 
-                } else if (service && service.name) {
+                    li.textContent =
+                        service;
 
-                    li.textContent = service.name;
+                } else if (
+                    service &&
+                    service.name
+                ) {
 
+                    li.textContent =
+                        service.name;
                 }
+
 
                 servicesList.appendChild(li);
             });
 
         } else {
 
-            const li =
-                document.createElement("li");
-
-            li.textContent =
-                "Services information will be updated soon.";
-
-            servicesList.appendChild(li);
+            servicesList.innerHTML =
+                "<li>Services information will be updated soon.</li>";
         }
 
-
-        // --------------------------------------------------
-        // SERVICES NOTES
-        // --------------------------------------------------
-
-        const servicesNotes =
-            sections.servicesNotes ||
-            businessConfig.servicesNotes ||
-            [];
 
         renderNotes(
             servicesNotes,
@@ -281,25 +338,24 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        // --------------------------------------------------
-        // SERVICES WHATSAPP ENQUIRE BUTTON
-        // --------------------------------------------------
-
         addWhatsappButtonToSection(
             document.getElementById("services"),
             whatsappNumber,
-            "Enquire on WhatsApp",
-            "whatsapp-enquire"
+            "Enquire on WhatsApp"
         );
 
 
-        // --------------------------------------------------
-        // PRODUCTS
-        // --------------------------------------------------
+        /* =====================================
+           PRODUCTS
+        ===================================== */
 
         productsList.innerHTML = "";
 
-        if (Array.isArray(products) && products.length > 0) {
+
+        if (
+            Array.isArray(products) &&
+            products.length > 0
+        ) {
 
             products.forEach(product => {
 
@@ -320,19 +376,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.appendChild(name);
 
 
-                if (
-                    product.description
-                ) {
+                if (product.description) {
 
-                    const productDescription =
+                    const desc =
                         document.createElement("p");
 
-                    productDescription.textContent =
+                    desc.className =
+                        "product-description";
+
+                    desc.textContent =
                         product.description;
 
-                    card.appendChild(
-                        productDescription
-                    );
+                    card.appendChild(desc);
                 }
 
 
@@ -355,33 +410,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // Product-level WhatsApp order button
                 if (whatsappNumber) {
 
-                    const orderButton =
+                    const order =
                         document.createElement("a");
 
-                    orderButton.className =
+                    order.className =
                         "whatsapp-order";
 
-                    orderButton.href =
+                    order.href =
                         createWhatsappUrl(
                             whatsappNumber,
                             `Hi, I am interested in ${product.name || "this product"}.`
                         );
 
-                    orderButton.target =
+                    order.target =
                         "_blank";
 
-                    orderButton.rel =
+                    order.rel =
                         "noopener noreferrer";
 
-                    orderButton.textContent =
+                    order.textContent =
                         "Order on WhatsApp";
 
-                    card.appendChild(
-                        orderButton
-                    );
+                    card.appendChild(order);
                 }
 
 
@@ -390,26 +442,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
 
-            const message =
-                document.createElement("p");
-
-            message.textContent =
-                "Products information will be updated soon.";
-
-            productsList.appendChild(message);
+            productsList.innerHTML =
+                "<p>Products information will be updated soon.</p>";
         }
 
 
-        // --------------------------------------------------
-        // PRODUCTS NOTES
-        // IMPORTANT:
-        // Notes appear BEFORE the section-level button.
-        // --------------------------------------------------
-
-        const productsNotes =
-            sections.productsNotes ||
-            businessConfig.productsNotes ||
-            [];
+        /* =====================================
+           PRODUCT NOTES
+        ===================================== */
 
         renderNotes(
             productsNotes,
@@ -418,21 +458,16 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        // --------------------------------------------------
-        // PRODUCT SECTION WHATSAPP BUTTON
-        // --------------------------------------------------
-
         addWhatsappButtonToSection(
             document.getElementById("products"),
             whatsappNumber,
-            "Enquire on WhatsApp",
-            "whatsapp-enquire"
+            "Enquire on WhatsApp"
         );
 
 
-        // --------------------------------------------------
-        // GALLERY
-        // --------------------------------------------------
+        /* =====================================
+           GALLERY
+        ===================================== */
 
         setupGallery(
             gallery,
@@ -440,68 +475,35 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        // --------------------------------------------------
-        // SOCIAL LINKS
-        // --------------------------------------------------
+        /* =====================================
+           INSTAGRAM
+        ===================================== */
 
-        let hasSocialLink = false;
-
-
-        const instagram =
+        setupSocialButton(
+            instagramButton,
             social.instagram ||
             businessConfig.instagram ||
-            "";
+            "",
+            socialLinks
+        );
 
-        const facebook =
+
+        /* =====================================
+           FACEBOOK
+        ===================================== */
+
+        setupSocialButton(
+            facebookButton,
             social.facebook ||
             businessConfig.facebook ||
-            "";
+            "",
+            socialLinks
+        );
 
 
-        if (instagram) {
-
-            instagramButton.href =
-                instagram;
-
-            instagramButton.style.display =
-                "inline-block";
-
-            hasSocialLink = true;
-
-        } else {
-
-            instagramButton.style.display =
-                "none";
-        }
-
-
-        if (facebook) {
-
-            facebookButton.href =
-                facebook;
-
-            facebookButton.style.display =
-                "inline-block";
-
-            hasSocialLink = true;
-
-        } else {
-
-            facebookButton.style.display =
-                "none";
-        }
-
-
-        if (!hasSocialLink) {
-
-            socialLinks.style.display =
-                "none";
-        }
-
-
-        // --------------------------------------------------
-        // FOOTER
-        // --------------------------------------------------
+        /* =====================================
+           FOOTER
+        ===================================== */
 
         const footerText =
             document.querySelector("footer p");
@@ -516,9 +518,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // --------------------------------------------------
-        // INITIAL TOP BAR HEIGHT
-        // --------------------------------------------------
+        /* =====================================
+           HEADER HEIGHT
+        ===================================== */
 
         updateTopBarHeight();
 
@@ -527,16 +529,16 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch(error => {
 
         console.error(
-            "Error loading website configuration:",
+            "Website loading error:",
             error
         );
 
     });
 
 
-    // ==================================================
-    // NOTES
-    // ==================================================
+    /* =========================================
+       NOTES
+    ========================================= */
 
     function renderNotes(
         notes,
@@ -553,10 +555,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const notesContainer =
+        const container =
             document.createElement("div");
 
-        notesContainer.className =
+        container.className =
             `${className}-notes`;
 
 
@@ -566,73 +568,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+
             const p =
                 document.createElement("p");
 
             p.textContent =
                 `📌 ${note}`;
 
-            notesContainer.appendChild(p);
+            container.appendChild(p);
         });
 
 
-        if (notesContainer.children.length === 0) {
-            return;
-        }
+        const enquiryButton =
+            section.querySelector(
+                ".whatsapp-enquire"
+            );
 
 
-        /*
-         * Insert notes immediately after the
-         * main content of the section.
-         *
-         * For products this means:
-         *
-         * Product cards
-         *       ↓
-         * Products notes
-         *       ↓
-         * Enquire button
-         */
+        if (enquiryButton) {
 
-        if (className === "products") {
-
-            const existingButton =
-                section.querySelector(
-                    ".whatsapp-enquire"
-                );
-
-            if (existingButton) {
-
-                existingButton.parentNode.insertBefore(
-                    notesContainer,
-                    existingButton
-                );
-
-            } else {
-
-                section.appendChild(
-                    notesContainer
-                );
-            }
+            section.insertBefore(
+                container,
+                enquiryButton
+            );
 
         } else {
 
-            section.appendChild(
-                notesContainer
-            );
+            section.appendChild(container);
         }
     }
 
 
-    // ==================================================
-    // WHATSAPP BUTTON
-    // ==================================================
+    /* =========================================
+       WHATSAPP SECTION BUTTON
+    ========================================= */
 
     function addWhatsappButtonToSection(
         section,
         number,
-        text,
-        className
+        text
     ) {
 
         if (
@@ -643,13 +617,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const existingButton =
+        if (
             section.querySelector(
-                `.${className}`
-            );
-
-
-        if (existingButton) {
+                ".whatsapp-enquire"
+            )
+        ) {
             return;
         }
 
@@ -658,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.createElement("a");
 
         button.className =
-            className;
+            "whatsapp-enquire";
 
         button.href =
             createWhatsappUrl(
@@ -680,6 +652,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =========================================
+       WHATSAPP URL
+    ========================================= */
+
     function createWhatsappUrl(
         number,
         message
@@ -689,16 +665,19 @@ document.addEventListener("DOMContentLoaded", function () {
             String(number)
                 .replace(/\D/g, "");
 
+
         return (
-            `https://wa.me/${cleanNumber}` +
-            `?text=${encodeURIComponent(message)}`
+            "https://wa.me/" +
+            cleanNumber +
+            "?text=" +
+            encodeURIComponent(message)
         );
     }
 
 
-    // ==================================================
-    // PRICE FORMAT
-    // ==================================================
+    /* =========================================
+       PRICE
+    ========================================= */
 
     function formatPrice(price) {
 
@@ -713,44 +692,82 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        if (
-            typeof price === "string"
-        ) {
-
-            return price;
-        }
-
-
-        return "";
+        return String(price);
     }
 
 
-    // ==================================================
-    // GALLERY
-    // ==================================================
+    /* =========================================
+       SOCIAL BUTTON
+    ========================================= */
 
-    function setupGallery(
-        gallery,
-        galleryContainer
+    function setupSocialButton(
+        button,
+        url,
+        container
     ) {
 
         if (
-            !galleryContainer
+            !button ||
+            !url
         ) {
+
+            if (button) {
+                button.style.display =
+                    "none";
+            }
+
             return;
         }
 
 
-        galleryContainer.innerHTML = "";
+        button.href =
+            url;
+
+        button.target =
+            "_blank";
+
+        button.rel =
+            "noopener noreferrer";
+
+        button.style.display =
+            "inline-block";
 
 
-        const images =
+        if (container) {
+
+            container.style.display =
+                "flex";
+        }
+    }
+
+
+    /* =========================================
+       GALLERY
+    ========================================= */
+
+    let galleryImages = [];
+
+    let currentGalleryIndex = 0;
+
+
+    function setupGallery(
+        gallery,
+        container
+    ) {
+
+        if (!container) {
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        galleryImages =
             normalizeGallery(gallery);
 
 
-        if (
-            images.length === 0
-        ) {
+        if (galleryImages.length === 0) {
 
             const message =
                 document.createElement("p");
@@ -758,41 +775,29 @@ document.addEventListener("DOMContentLoaded", function () {
             message.textContent =
                 "Gallery images will be added soon.";
 
-            galleryContainer.appendChild(
-                message
-            );
+            container.appendChild(message);
 
             return;
         }
 
 
-        // Store gallery images globally
-        window.sarvyantaGalleryImages =
-            images;
+        /* FIRST 3 */
 
-
-        // Show first 3 images
-        const featuredImages =
-            images.slice(
-                0,
-                3
-            );
-
-
-        featuredImages.forEach(
-            (image, index) => {
+        galleryImages
+            .slice(0, 3)
+            .forEach((image, index) => {
 
                 createGalleryItem(
                     image,
                     index,
-                    galleryContainer
+                    container
                 );
-            }
-        );
+            });
 
 
-        // More than 3 images
-        if (images.length > 3) {
+        /* VIEW ALL */
+
+        if (galleryImages.length > 3) {
 
             const folder =
                 document.createElement("div");
@@ -801,88 +806,81 @@ document.addEventListener("DOMContentLoaded", function () {
                 "gallery-folder";
 
             folder.textContent =
-                `View All Photos (${images.length})`;
+                `View All Photos (${galleryImages.length})`;
 
 
             folder.addEventListener(
                 "click",
-                function () {
-
-                    openAllPhotos();
-                }
+                openAllPhotos
             );
 
 
-            galleryContainer.appendChild(
-                folder
-            );
+            container.appendChild(folder);
         }
     }
 
 
-    function normalizeGallery(
-        gallery
-    ) {
+    function normalizeGallery(gallery) {
 
         if (!Array.isArray(gallery)) {
             return [];
         }
 
 
-        const result = [];
+        return gallery
+            .map(item => {
+
+                if (
+                    typeof item === "string"
+                ) {
+
+                    return {
+                        src: item,
+                        title: ""
+                    };
+                }
 
 
-        gallery.forEach(item => {
+                if (
+                    item &&
+                    item.image
+                ) {
 
-            if (!item) {
-                return;
-            }
-
-
-            if (typeof item === "string") {
-
-                result.push({
-                    src: item,
-                    title: ""
-                });
-
-                return;
-            }
+                    return {
+                        src: item.image,
+                        title: item.title || ""
+                    };
+                }
 
 
-            if (item.image) {
+                if (
+                    item &&
+                    item.src
+                ) {
 
-                result.push({
-                    src: item.image,
-                    title: item.title || ""
-                });
-
-                return;
-            }
-
-
-            if (item.src) {
-
-                result.push({
-                    src: item.src,
-                    title: item.title || ""
-                });
-
-                return;
-            }
+                    return {
+                        src: item.src,
+                        title: item.title || ""
+                    };
+                }
 
 
-            if (item.path) {
+                if (
+                    item &&
+                    item.path
+                ) {
 
-                result.push({
-                    src: item.path,
-                    title: item.title || ""
-                });
-            }
-        });
+                    return {
+                        src: item.path,
+                        title: item.title || ""
+                    };
+                }
 
 
-        return result;
+                return null;
+
+            })
+            .filter(Boolean);
     }
 
 
@@ -929,186 +927,179 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ==================================================
-    // CREATE GALLERY OVERLAYS
-    // ==================================================
+    /* =========================================
+       CREATE GALLERY OVERLAYS
+    ========================================= */
 
     function createGalleryOverlays() {
 
-        let lightbox =
+        if (
             document.getElementById(
                 "galleryLightbox"
-            );
-
-
-        let allPhotos =
-            document.getElementById(
-                "galleryAllPhotos"
-            );
-
-
-        // ----------------------------------------------
-        // LIGHTBOX
-        // ----------------------------------------------
-
-        if (!lightbox) {
-
-            lightbox =
-                document.createElement("div");
-
-            lightbox.id =
-                "galleryLightbox";
-
-
-            const close =
-                document.createElement("button");
-
-            close.id =
-                "galleryLightboxClose";
-
-            close.innerHTML =
-                "×";
-
-            close.setAttribute(
-                "aria-label",
-                "Close"
-            );
-
-
-            const prev =
-                document.createElement("button");
-
-            prev.id =
-                "galleryPrev";
-
-            prev.innerHTML =
-                "‹";
-
-            prev.setAttribute(
-                "aria-label",
-                "Previous"
-            );
-
-
-            const img =
-                document.createElement("img");
-
-            img.id =
-                "galleryLightboxImage";
-
-
-            const next =
-                document.createElement("button");
-
-            next.id =
-                "galleryNext";
-
-            next.innerHTML =
-                "›";
-
-            next.setAttribute(
-                "aria-label",
-                "Next"
-            );
-
-
-            const counter =
-                document.createElement("div");
-
-            counter.id =
-                "galleryLightboxCounter";
-
-
-            lightbox.appendChild(close);
-            lightbox.appendChild(prev);
-            lightbox.appendChild(img);
-            lightbox.appendChild(next);
-            lightbox.appendChild(counter);
-
-
-            document.body.appendChild(
-                lightbox
-            );
+            )
+        ) {
+            return;
         }
 
 
-        // ----------------------------------------------
-        // ALL PHOTOS
-        // ----------------------------------------------
+        /* LIGHTBOX */
 
-        if (!allPhotos) {
+        const lightbox =
+            document.createElement("div");
 
-            allPhotos =
-                document.createElement("div");
-
-            allPhotos.id =
-                "galleryAllPhotos";
+        lightbox.id =
+            "galleryLightbox";
 
 
-            const close =
-                document.createElement("button");
+        const close =
+            document.createElement("button");
 
-            close.id =
-                "galleryAllPhotosClose";
+        close.id =
+            "galleryLightboxClose";
 
-            close.innerHTML =
-                "×";
-
-            close.setAttribute(
-                "aria-label",
-                "Close"
-            );
+        close.textContent =
+            "×";
 
 
-            const title =
-                document.createElement("h2");
+        const prev =
+            document.createElement("button");
 
-            title.id =
-                "galleryAllPhotosTitle";
+        prev.id =
+            "galleryPrev";
 
-            title.textContent =
-                "All Photos";
-
-
-            const grid =
-                document.createElement("div");
-
-            grid.id =
-                "galleryAllPhotosGrid";
+        prev.textContent =
+            "‹";
 
 
-            allPhotos.appendChild(close);
-            allPhotos.appendChild(title);
-            allPhotos.appendChild(grid);
+        const image =
+            document.createElement("img");
+
+        image.id =
+            "galleryLightboxImage";
 
 
-            document.body.appendChild(
-                allPhotos
-            );
-        }
+        const next =
+            document.createElement("button");
+
+        next.id =
+            "galleryNext";
+
+        next.textContent =
+            "›";
+
+
+        const counter =
+            document.createElement("div");
+
+        counter.id =
+            "galleryLightboxCounter";
+
+
+        lightbox.appendChild(close);
+        lightbox.appendChild(prev);
+        lightbox.appendChild(image);
+        lightbox.appendChild(next);
+        lightbox.appendChild(counter);
+
+
+        document.body.appendChild(lightbox);
+
+
+        close.addEventListener(
+            "click",
+            closeLightbox
+        );
+
+        prev.addEventListener(
+            "click",
+            showPrevious
+        );
+
+        next.addEventListener(
+            "click",
+            showNext
+        );
+
+
+        lightbox.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === lightbox
+                ) {
+
+                    closeLightbox();
+                }
+            }
+        );
+
+
+        /* ALL PHOTOS */
+
+        const allPhotos =
+            document.createElement("div");
+
+        allPhotos.id =
+            "galleryAllPhotos";
+
+
+        const allClose =
+            document.createElement("button");
+
+        allClose.id =
+            "galleryAllPhotosClose";
+
+        allClose.textContent =
+            "×";
+
+
+        const title =
+            document.createElement("h2");
+
+        title.id =
+            "galleryAllPhotosTitle";
+
+        title.textContent =
+            "All Photos";
+
+
+        const grid =
+            document.createElement("div");
+
+        grid.id =
+            "galleryAllPhotosGrid";
+
+
+        allPhotos.appendChild(allClose);
+        allPhotos.appendChild(title);
+        allPhotos.appendChild(grid);
+
+
+        document.body.appendChild(
+            allPhotos
+        );
+
+
+        allClose.addEventListener(
+            "click",
+            closeAllPhotos
+        );
     }
 
 
     createGalleryOverlays();
 
 
-    // ==================================================
-    // LIGHTBOX STATE
-    // ==================================================
-
-    let currentGalleryIndex = 0;
-
+    /* =========================================
+       LIGHTBOX
+    ========================================= */
 
     function openLightbox(index) {
 
-        const images =
-            window.sarvyantaGalleryImages || [];
-
-
         if (
-            images.length === 0 ||
             index < 0 ||
-            index >= images.length
+            index >= galleryImages.length
         ) {
             return;
         }
@@ -1123,7 +1114,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "galleryLightbox"
             );
 
-        const imageElement =
+        const image =
             document.getElementById(
                 "galleryLightboxImage"
             );
@@ -1134,16 +1125,16 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        imageElement.src =
-            images[index].src;
+        image.src =
+            galleryImages[index].src;
 
-        imageElement.alt =
-            images[index].title ||
+        image.alt =
+            galleryImages[index].title ||
             `Gallery Image ${index + 1}`;
 
 
         counter.textContent =
-            `${index + 1} / ${images.length}`;
+            `${index + 1} / ${galleryImages.length}`;
 
 
         lightbox.style.display =
@@ -1177,13 +1168,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function showPreviousImage() {
+    function showPrevious() {
 
-        const images =
-            window.sarvyantaGalleryImages || [];
-
-
-        if (images.length === 0) {
+        if (
+            galleryImages.length === 0
+        ) {
             return;
         }
 
@@ -1192,9 +1181,9 @@ document.addEventListener("DOMContentLoaded", function () {
             (
                 currentGalleryIndex -
                 1 +
-                images.length
+                galleryImages.length
             ) %
-            images.length;
+            galleryImages.length;
 
 
         openLightbox(
@@ -1203,13 +1192,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function showNextImage() {
+    function showNext() {
 
-        const images =
-            window.sarvyantaGalleryImages || [];
-
-
-        if (images.length === 0) {
+        if (
+            galleryImages.length === 0
+        ) {
             return;
         }
 
@@ -1219,7 +1206,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentGalleryIndex +
                 1
             ) %
-            images.length;
+            galleryImages.length;
 
 
         openLightbox(
@@ -1228,20 +1215,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ==================================================
-    // ALL PHOTOS
-    // ==================================================
+    /* =========================================
+       ALL PHOTOS
+    ========================================= */
 
     function openAllPhotos() {
-
-        const images =
-            window.sarvyantaGalleryImages || [];
-
-
-        if (images.length === 0) {
-            return;
-        }
-
 
         const overlay =
             document.getElementById(
@@ -1257,7 +1235,7 @@ document.addEventListener("DOMContentLoaded", function () {
         grid.innerHTML = "";
 
 
-        images.forEach(
+        galleryImages.forEach(
             (image, index) => {
 
                 const img =
@@ -1321,71 +1299,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ==================================================
-    // GALLERY BUTTON EVENTS
-    // ==================================================
-
-    document
-        .getElementById(
-            "galleryLightboxClose"
-        )
-        .addEventListener(
-            "click",
-            closeLightbox
-        );
-
-
-    document
-        .getElementById(
-            "galleryPrev"
-        )
-        .addEventListener(
-            "click",
-            showPreviousImage
-        );
-
-
-    document
-        .getElementById(
-            "galleryNext"
-        )
-        .addEventListener(
-            "click",
-            showNextImage
-        );
-
-
-    document
-        .getElementById(
-            "galleryAllPhotosClose"
-        )
-        .addEventListener(
-            "click",
-            closeAllPhotos
-        );
-
-
-    // Close when clicking dark background
-    document
-        .getElementById(
-            "galleryLightbox"
-        )
-        .addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target === this
-                ) {
-                    closeLightbox();
-                }
-            }
-        );
-
-
-    // ==================================================
-    // KEYBOARD CONTROLS
-    // ==================================================
+    /* =========================================
+       KEYBOARD
+    ========================================= */
 
     document.addEventListener(
         "keydown",
@@ -1407,15 +1323,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 lightbox.style.display === "flex"
             ) {
 
-                if (event.key === "ArrowLeft") {
+                if (
+                    event.key === "ArrowLeft"
+                ) {
 
-                    showPreviousImage();
+                    showPrevious();
 
                 } else if (
                     event.key === "ArrowRight"
                 ) {
 
-                    showNextImage();
+                    showNext();
 
                 } else if (
                     event.key === "Escape"
@@ -1438,26 +1356,27 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    // ==================================================
-    // TOUCH / SWIPE SUPPORT
-    // ==================================================
+    /* =========================================
+       TOUCH SWIPE
+    ========================================= */
 
     let touchStartX = 0;
-    let touchEndX = 0;
 
 
-    const lightboxElement =
-        document.getElementById(
-            "galleryLightbox"
-        );
-
-
-    lightboxElement.addEventListener(
+    document.addEventListener(
         "touchstart",
         function (event) {
 
+            const lightbox =
+                document.getElementById(
+                    "galleryLightbox"
+                );
+
+
             if (
-                event.changedTouches.length > 0
+                lightbox &&
+                lightbox.style.display === "flex" &&
+                event.changedTouches.length
             ) {
 
                 touchStartX =
@@ -1468,137 +1387,131 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    lightboxElement.addEventListener(
+    document.addEventListener(
         "touchend",
         function (event) {
 
+            const lightbox =
+                document.getElementById(
+                    "galleryLightbox"
+                );
+
+
             if (
-                event.changedTouches.length === 0
+                !lightbox ||
+                lightbox.style.display !== "flex" ||
+                !event.changedTouches.length
             ) {
                 return;
             }
 
 
-            touchEndX =
+            const touchEndX =
                 event.changedTouches[0].screenX;
 
 
-            handleSwipe();
+            const difference =
+                touchEndX - touchStartX;
+
+
+            if (
+                Math.abs(difference) < 50
+            ) {
+                return;
+            }
+
+
+            if (difference > 0) {
+
+                showPrevious();
+
+            } else {
+
+                showNext();
+            }
         },
         { passive: true }
     );
 
 
-    function handleSwipe() {
+    /* =========================================
+       TOP BAR HEIGHT + SCROLL
+    ========================================= */
 
-        const difference =
-            touchEndX -
-            touchStartX;
+    const topBar =
+        document.getElementById("topBar");
 
 
-        if (
-            Math.abs(difference) < 50
-        ) {
+    function updateTopBarHeight() {
+
+        if (!topBar) {
             return;
         }
 
 
-        if (difference > 0) {
-
-            showPreviousImage();
-
-        } else {
-
-            showNextImage();
-        }
+        document.documentElement
+            .style
+            .setProperty(
+                "--topbar-height",
+                topBar.offsetHeight + "px"
+            );
     }
 
 
-    // ==================================================
-    // DYNAMIC TOP BAR HEIGHT
-    // ==================================================
-    // This keeps the page content correctly positioned
-    // below the fixed header + navigation.
-    //
-    // No hard-coded 390px / 205px / 185px values.
-    // ==================================================
+    function updateScrollState() {
 
-    const topBar =
-        document.getElementById(
-            "topBar"
-        );
-
-
-    if (topBar) {
-
-        function updateTopBarHeight() {
-
-            const height =
-                topBar.offsetHeight;
-
-
-            document.documentElement
-                .style
-                .setProperty(
-                    "--topbar-height",
-                    height + "px"
-                );
+        if (!topBar) {
+            return;
         }
 
 
-        function updateScrollState() {
+        if (
+            window.scrollY > 80
+        ) {
 
-            if (
-                window.scrollY > 80
-            ) {
+            topBar.classList.add(
+                "scrolled"
+            );
 
-                topBar.classList.add(
-                    "scrolled"
-                );
+        } else {
 
-            } else {
-
-                topBar.classList.remove(
-                    "scrolled"
-                );
-            }
-
-
-            requestAnimationFrame(
-                function () {
-
-                    updateTopBarHeight();
-                }
+            topBar.classList.remove(
+                "scrolled"
             );
         }
 
 
-        window.addEventListener(
-            "scroll",
-            updateScrollState,
-            { passive: true }
-        );
-
-
-        window.addEventListener(
-            "resize",
+        requestAnimationFrame(
             updateTopBarHeight
-        );
-
-
-        window.addEventListener(
-            "load",
-            updateTopBarHeight
-        );
-
-
-        updateTopBarHeight();
-
-
-        setTimeout(
-            updateTopBarHeight,
-            100
         );
     }
+
+
+    window.addEventListener(
+        "scroll",
+        updateScrollState,
+        { passive: true }
+    );
+
+
+    window.addEventListener(
+        "resize",
+        updateTopBarHeight
+    );
+
+
+    window.addEventListener(
+        "load",
+        updateTopBarHeight
+    );
+
+
+    updateTopBarHeight();
+
+
+    setTimeout(
+        updateTopBarHeight,
+        200
+    );
 
 });
