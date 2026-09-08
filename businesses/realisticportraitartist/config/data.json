@@ -27,21 +27,25 @@
     "🖤 GRAPHITE & CHARCOAL PORTRAITS",
     "🎨 COLORED PENCIL PORTRAITS"
   ],
-"servicesNotes": [
-  "Final pricing may vary depending on background complexity, number of subjects & level of detailing.",
+
+  "products": [
+    {
+      "name": "GRAPHITE & CHARCOAL PORTRAITS | Single | A4 Size",
+      "price": 2499
+    },
+    {
+      "name": "COLORED PENCIL PORTRAITS | Single | A4 Size",
+      "price": 3499
+    }
+  ],
+
+  "productsNotes": [
+  "Final pricing may vary depending on Size, background complexity, number of subjects & level of detailing.",
   "50% advance required to confirm your commission slot.",
   "Please book at least 15–20 days in advance.",
   "Courier/shipping charges are additional.",
   "Shipping available worldwide."
 ],
-
-  "products": [
-    {
-      "name": "GRAPHITE & CHARCOAL PORTRAITS",
-      "price": 2499
-      
-    }
-  ],
   "gallery": [
     "assets/gallery/1000193282.jpg",
     "assets/gallery/1000193283.jpg",
