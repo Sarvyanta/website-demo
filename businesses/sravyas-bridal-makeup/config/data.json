@@ -31,7 +31,8 @@
   "products": [],
   "gallery": ["assets/gallery/1000193052.png"],
   "social": {
-    "instagram": "",
-    "facebook": ""
+    
+    "instagram": "https://instagram.com/example",
+    "facebook": "https://facebook.com/example"
   }
 }
