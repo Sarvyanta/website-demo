@@ -25,9 +25,16 @@
   "services": [
     "✨ HANDMADE PORTRAIT COMMISSION PRICE LIST ✨",
     "🖤 GRAPHITE & CHARCOAL PORTRAITS",
-    "🎨 COLORED PENCIL PORTRAITS",
-    "‎📌 Final pricing may vary depending on background complexity, number of subjects & level of detailing. ‎📌 50% advance required to confirm your commission slot. ‎📌 Please book at least 15–20 days in advance. ‎📌 Courier/shipping charges are additional. ‎📌 Shipping available worldwide ‎ ‎"
+    "🎨 COLORED PENCIL PORTRAITS"
   ],
+"servicesNotes": [
+  "Final pricing may vary depending on background complexity, number of subjects & level of detailing.",
+  "50% advance required to confirm your commission slot.",
+  "Please book at least 15–20 days in advance.",
+  "Courier/shipping charges are additional.",
+  "Shipping available worldwide."
+],
+
   "products": [
     {
       "name": "GRAPHITE & CHARCOAL PORTRAITS",
