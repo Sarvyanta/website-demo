@@ -2,8 +2,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const params = new URLSearchParams(window.location.search);
 
-  const businessId =
-    params.get("business") || "realisticportraitartist";
+const hostname = window.location.hostname;
+
+let businessId =
+  params.get("business") || "realisticportraitartist";
+
+if (
+  hostname.endsWith(".sarvyanta.com") &&
+  hostname !== "sarvyanta.com" &&
+  hostname !== "www.sarvyanta.com"
+) {
+  businessId =
+    hostname.replace(".sarvyanta.com", "");
+}
 
   const businessFolder =
     "businesses/" + businessId + "/";
