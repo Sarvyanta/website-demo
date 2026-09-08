@@ -125,7 +125,16 @@ Promise.all([
         navServices.style.display = "none";
     }
 
+if (data.servicesNotes && data.servicesNotes.trim() !== "") {
 
+    const servicesNote = document.createElement("p");
+
+    servicesNote.textContent = data.servicesNotes;
+
+    servicesNote.id = "servicesNotes";
+
+    servicesSection.appendChild(servicesNote);
+}
     // Products
     const productsSection = document.getElementById("products");
     const productsList = document.getElementById("productsList");
@@ -200,7 +209,16 @@ Promise.all([
         navProducts.style.display = "none";
     }
 
+if (data.productsNotes && data.productsNotes.trim() !== "") {
 
+    const productsNote = document.createElement("p");
+
+    productsNote.textContent = data.productsNotes;
+
+    productsNote.id = "productsNotes";
+
+    productsSection.appendChild(productsNote);
+}
     // Gallery
     const gallerySection = document.getElementById("gallery");
     const galleryList = document.getElementById("galleryList");
