@@ -433,16 +433,31 @@ main {
 }
 
 
-/* =========================
-   FOOTER
-========================= */
-
+/* FOOTER */
 footer {
+  margin-top: 30px;
+  padding: 28px 20px;
   text-align: center;
+  background: linear-gradient(135deg, #111827, #1e3a8a);
+  color: white;
+  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.12);
+}
 
-  padding: 25px;
+footer p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
 
-  color: #666;
+footer p::after {
+  content: "Building an intelligent world.";
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0.7;
+  letter-spacing: 0.2px;
 }
 
 
