@@ -92,6 +92,7 @@ Promise.all([
         data.services.length > 0
     ) {
 
+        // Services List
         data.services.forEach(service => {
 
             const listItem = document.createElement("li");
@@ -100,6 +101,39 @@ Promise.all([
             servicesList.appendChild(listItem);
         });
 
+
+        // Services Notes
+        if (
+            Array.isArray(data.servicesNotes) &&
+            data.servicesNotes.length > 0
+        ) {
+
+            const servicesNotesTitle = document.createElement("strong");
+            servicesNotesTitle.textContent = "Notes";
+
+            servicesSection.appendChild(servicesNotesTitle);
+
+            const servicesNotesList = document.createElement("ul");
+
+            data.servicesNotes.forEach(note => {
+
+                if (note && note.trim() !== "") {
+
+                    const noteItem = document.createElement("li");
+
+                    noteItem.textContent = note;
+
+                    servicesNotesList.appendChild(noteItem);
+                }
+            });
+
+            if (servicesNotesList.children.length > 0) {
+                servicesSection.appendChild(servicesNotesList);
+            }
+        }
+
+
+        // Services WhatsApp Button
         const enquireButton = document.createElement("a");
 
         enquireButton.textContent = "Enquire on WhatsApp";
@@ -125,35 +159,7 @@ Promise.all([
         navServices.style.display = "none";
     }
 
-// Services Notes
-if (
-    Array.isArray(data.servicesNotes) &&
-    data.servicesNotes.length > 0
-) {
 
-    const servicesNotesTitle = document.createElement("strong");
-    servicesNotesTitle.textContent = "Notes";
-
-    servicesSection.appendChild(servicesNotesTitle);
-
-    const servicesNotesList = document.createElement("ul");
-
-    data.servicesNotes.forEach(note => {
-
-        if (note && note.trim() !== "") {
-
-            const noteItem = document.createElement("li");
-
-            noteItem.textContent = note;
-
-            servicesNotesList.appendChild(noteItem);
-        }
-    });
-
-    if (servicesNotesList.children.length > 0) {
-        servicesSection.appendChild(servicesNotesList);
-    }
-}
     // Products
     const productsSection = document.getElementById("products");
     const productsList = document.getElementById("productsList");
@@ -203,6 +209,8 @@ if (
             productsList.appendChild(listItem);
         });
 
+
+        // Products WhatsApp Button
         const orderButton = document.createElement("a");
 
         orderButton.textContent = "Order on WhatsApp";
@@ -228,35 +236,38 @@ if (
         navProducts.style.display = "none";
     }
 
-// Products Notes
-if (
-    Array.isArray(data.productsNotes) &&
-    data.productsNotes.length > 0
-) {
 
-    const productsNotesTitle = document.createElement("strong");
-    productsNotesTitle.textContent = "Notes";
+    // Products Notes
+    if (
+        Array.isArray(data.productsNotes) &&
+        data.productsNotes.length > 0
+    ) {
 
-    productsSection.appendChild(productsNotesTitle);
+        const productsNotesTitle = document.createElement("strong");
+        productsNotesTitle.textContent = "Notes";
 
-    const productsNotesList = document.createElement("ul");
+        productsSection.appendChild(productsNotesTitle);
 
-    data.productsNotes.forEach(note => {
+        const productsNotesList = document.createElement("ul");
 
-        if (note && note.trim() !== "") {
+        data.productsNotes.forEach(note => {
 
-            const noteItem = document.createElement("li");
+            if (note && note.trim() !== "") {
 
-            noteItem.textContent = note;
+                const noteItem = document.createElement("li");
 
-            productsNotesList.appendChild(noteItem);
+                noteItem.textContent = note;
+
+                productsNotesList.appendChild(noteItem);
+            }
+        });
+
+        if (productsNotesList.children.length > 0) {
+            productsSection.appendChild(productsNotesList);
         }
-    });
-
-    if (productsNotesList.children.length > 0) {
-        productsSection.appendChild(productsNotesList);
     }
-}
+
+
     // Gallery
     const gallerySection = document.getElementById("gallery");
     const galleryList = document.getElementById("galleryList");
