@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ========================= */
 
     function renderBusiness(data) {
-
+currentBusinessData = data;
         const business =
             data.business || data;
 
