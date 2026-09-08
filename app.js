@@ -125,15 +125,34 @@ Promise.all([
         navServices.style.display = "none";
     }
 
-if (data.servicesNotes && data.servicesNotes.trim() !== "") {
+// Services Notes
+if (
+    Array.isArray(data.servicesNotes) &&
+    data.servicesNotes.length > 0
+) {
 
-    const servicesNote = document.createElement("p");
+    const servicesNotesTitle = document.createElement("strong");
+    servicesNotesTitle.textContent = "Notes";
 
-    servicesNote.textContent = data.servicesNotes;
+    servicesSection.appendChild(servicesNotesTitle);
 
-    servicesNote.id = "servicesNotes";
+    const servicesNotesList = document.createElement("ul");
 
-    servicesSection.appendChild(servicesNote);
+    data.servicesNotes.forEach(note => {
+
+        if (note && note.trim() !== "") {
+
+            const noteItem = document.createElement("li");
+
+            noteItem.textContent = note;
+
+            servicesNotesList.appendChild(noteItem);
+        }
+    });
+
+    if (servicesNotesList.children.length > 0) {
+        servicesSection.appendChild(servicesNotesList);
+    }
 }
     // Products
     const productsSection = document.getElementById("products");
@@ -209,15 +228,34 @@ if (data.servicesNotes && data.servicesNotes.trim() !== "") {
         navProducts.style.display = "none";
     }
 
-if (data.productsNotes && data.productsNotes.trim() !== "") {
+// Products Notes
+if (
+    Array.isArray(data.productsNotes) &&
+    data.productsNotes.length > 0
+) {
 
-    const productsNote = document.createElement("p");
+    const productsNotesTitle = document.createElement("strong");
+    productsNotesTitle.textContent = "Notes";
 
-    productsNote.textContent = data.productsNotes;
+    productsSection.appendChild(productsNotesTitle);
 
-    productsNote.id = "productsNotes";
+    const productsNotesList = document.createElement("ul");
 
-    productsSection.appendChild(productsNote);
+    data.productsNotes.forEach(note => {
+
+        if (note && note.trim() !== "") {
+
+            const noteItem = document.createElement("li");
+
+            noteItem.textContent = note;
+
+            productsNotesList.appendChild(noteItem);
+        }
+    });
+
+    if (productsNotesList.children.length > 0) {
+        productsSection.appendChild(productsNotesList);
+    }
 }
     // Gallery
     const gallerySection = document.getElementById("gallery");
