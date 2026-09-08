@@ -1,1 +1,397 @@
-:root { --page-background: #f4f7fb; --card-background: #ffffff; --card-border: #e4eaf1; --primary: #1976d2; --primary-dark: #125ea8; --text: #1f2937; --muted: #667085; --topbar-height: 0px; } /* ========================================= GLOBAL ========================================= */ * { box-sizing: border-box; } html { scroll-behavior: smooth; } body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--page-background); color: var(--text); line-height: 1.5; } img { max-width: 100%; } a { -webkit-tap-highlight-color: transparent; } /* ========================================= TOP BAR ========================================= */ #topBar { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: #ffffff; box-shadow: 0 2px 14px rgba(20, 50, 90, 0.10); } /* ========================================= HEADER ========================================= */ #topBar header { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 20px; min-height: 150px; background: linear-gradient( 135deg, #1976d2 0%, #1565c0 100% ); transition: min-height 0.25s ease, padding 0.25s ease; } /* ========================================= LOGO ========================================= */ #businessLogo { display: block; width: auto; height: auto; max-width: 150px; max-height: 150px; object-fit: contain; border-radius: 10px; transition: max-width 0.25s ease, max-height 0.25s ease; } /* ========================================= BUSINESS IDENTITY ========================================= */ #businessIdentity { max-width: 650px; text-align: left; } #businessName { margin: 0; color: #ffffff; font-size: 30px; line-height: 1.2; font-weight: 700; } #tagline { margin: 8px 0 0; color: rgba(255,255,255,0.92); font-size: 15px; line-height: 1.4; } /* ========================================= SCROLLED HEADER ========================================= */ #topBar.scrolled header { min-height: 62px; padding: 7px 18px; } #topBar.scrolled #businessLogo { max-width: 46px; max-height: 46px; border-radius: 7px; } #topBar.scrolled #businessName { font-size: 20px; } #topBar.scrolled #tagline { font-size: 12px; margin-top: 2px; } /* ========================================= NAVIGATION ========================================= */ #navigation { display: flex; justify-content: center; align-items: center; gap: 4px; padding: 7px 10px; background: #ffffff; border-top: 1px solid #e7edf4; } #navigation a { display: inline-block; padding: 8px 14px; color: #344054; text-decoration: none; font-size: 14px; font-weight: 600; border-radius: 7px; transition: background 0.2s ease, color 0.2s ease; } #navigation a:hover { background: #eef5ff; color: var(--primary); } /* ========================================= MAIN ========================================= */ main { width: 100%; max-width: 1050px; margin: 0 auto; padding: calc(var(--topbar-height) + 24px) 20px 25px; } /* ========================================= SECTIONS ========================================= */ section { background: #ffffff; border: 1px solid var(--card-border); border-radius: 14px; padding: 26px; margin-bottom: 20px; box-shadow: 0 4px 18px rgba(20,50,90,0.07); scroll-margin-top: calc(var(--topbar-height) + 14px); } section h2 { margin: 0 0 18px; font-size: 24px; color: #172033; } /* ========================================= ABOUT ========================================= */ #description { margin: 0; white-space: pre-line; line-height: 1.75; color: #475467; } /* ========================================= SERVICES ========================================= */ #servicesList { margin: 0; padding-left: 22px; } #servicesList li { margin-bottom: 9px; color: #475467; } /* ========================================= NOTES ========================================= */ .services-notes, .products-notes { margin-top: 20px; padding: 15px 17px; background: #f8fafc; border: 1px solid #e5eaf0; border-radius: 9px; } .services-notes p, .products-notes p { margin: 7px 0; font-size: 14px; color: #475467; } /* ========================================= PRODUCTS ========================================= */ #productsList { display: grid; grid-template-columns: repeat( auto-fit, minmax(230px, 1fr) ); gap: 16px; } .product-card { padding: 20px; background: #ffffff; border: 1px solid #e4eaf1; border-radius: 11px; box-shadow: 0 3px 12px rgba(20,50,90,0.05); } .product-card h3 { margin: 0 0 10px; font-size: 17px; color: #1f2937; } .product-description { color: #667085; } .product-price { margin: 12px 0; font-size: 19px; font-weight: 700; color: #172033; } /* ========================================= WHATSAPP ========================================= */ .whatsapp-enquire, .whatsapp-order, #whatsappButton { display: inline-block; margin-top: 13px; padding: 10px 16px; border-radius: 8px; background: #25d366; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; } .whatsapp-enquire:hover, .whatsapp-order:hover, #whatsappButton:hover { opacity: 0.9; } /* ========================================= GALLERY ========================================= */ #galleryList { display: grid; grid-template-columns: repeat( auto-fit, minmax(180px, 1fr) ); gap: 13px; } .gallery-item { overflow: hidden; border-radius: 11px; background: #f3f5f8; border: 1px solid #e5eaf0; cursor: pointer; } .gallery-item img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; transition: transform 0.3s ease; } .gallery-item:hover img { transform: scale(1.05); } /* ========================================= VIEW ALL ========================================= */ .gallery-folder { display: flex; align-items: center; justify-content: center; min-height: 180px; padding: 20px; border-radius: 11px; background: #f8fafc; border: 1px dashed #cbd5e1; text-align: center; font-weight: 700; color: #475467; cursor: pointer; } .gallery-folder:hover { background: #eef5ff; color: var(--primary); } /* ========================================= LIGHTBOX ========================================= */ #galleryLightbox { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; background: rgba(0,0,0,0.94); padding: 20px; } #galleryLightboxImage { max-width: 90vw; max-height: 85vh; object-fit: contain; } #galleryLightbox button { position: absolute; border: 0; background: transparent; color: #ffffff; cursor: pointer; } #galleryLightboxClose { top: 12px; right: 18px; font-size: 38px; } #galleryPrev, #galleryNext { top: 50%; transform: translateY(-50%); font-size: 50px; } #galleryPrev { left: 8px; } #galleryNext { right: 8px; } #galleryLightboxCounter { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); color: #ffffff; font-size: 14px; } /* ========================================= ALL PHOTOS ========================================= */ #galleryAllPhotos { display: none; position: fixed; inset: 0; z-index: 900; overflow-y: auto; padding: 65px 20px 35px; background: #ffffff; } #galleryAllPhotosTitle { max-width: 1050px; margin: 0 auto 22px; font-size: 25px; } #galleryAllPhotosGrid { max-width: 1050px; margin: auto; display: grid; grid-template-columns: repeat( auto-fit, minmax(160px, 1fr) ); gap: 13px; } #galleryAllPhotosGrid img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 9px; cursor: pointer; } #galleryAllPhotosClose { position: fixed; top: 13px; right: 18px; z-index: 10; border: 0; background: transparent; color: #222222; font-size: 36px; cursor: pointer; } /* ========================================= CONTACT ========================================= */ #contact p { color: #475467; } #socialLinks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; } #socialLinks a { display: inline-block; padding: 9px 14px; border-radius: 8px; background: #eef2f7; color: #344054; text-decoration: none; font-size: 14px; font-weight: 600; } #socialLinks a:hover { background: #e5edf8; color: var(--primary); } /* ========================================= FOOTER ========================================= */ footer { padding: 25px 15px 35px; text-align: center; color: #667085; font-size: 13px; } /* ========================================= MOBILE ========================================= */ @media (max-width: 600px) { #topBar header { min-height: 150px; padding: 12px; gap: 12px; } #businessLogo { max-width: 100px; max-height: 100px; } #businessIdentity { max-width: calc(100% - 115px); } #businessName { font-size: 22px; } #tagline { font-size: 13px; } #navigation { overflow-x: auto; justify-content: flex-start; white-space: nowrap; } #navigation a { flex: 0 0 auto; padding: 7px 11px; font-size: 13px; } #topBar.scrolled header { min-height: 55px; padding: 6px 10px; } #topBar.scrolled #businessLogo { max-width: 40px; max-height: 40px; } #topBar.scrolled #businessName { font-size: 18px; } #topBar.scrolled #tagline { font-size: 11px; } main { padding: calc(var(--topbar-height) + 12px) 12px 15px; } section { padding: 19px; margin-bottom: 15px; border-radius: 11px; } section h2 { font-size: 21px; } #productsList { grid-template-columns: 1fr; } #galleryList { grid-template-columns: repeat(2, 1fr); } #galleryLightboxImage { max-width: 94vw; max-height: 78vh; } #galleryPrev, #galleryNext { font-size: 38px; } #galleryAllPhotos { padding: 58px 12px 25px; } #galleryAllPhotosGrid { grid-template-columns: repeat(2, 1fr); gap: 9px; } } 
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6f8;
+    color: #222;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+#topBar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, #111827, #1e3a8a);
+    color: white;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 14px 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#businessLogo {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: white;
+    display: none;
+}
+
+#businessName {
+    margin: 0;
+    font-size: 25px;
+}
+
+#tagline {
+    margin: 5px 0 0;
+    opacity: 0.85;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+#navigation {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 10px;
+    overflow-x: auto;
+}
+
+#navigation a {
+    color: white;
+    text-decoration: none;
+    padding: 9px 13px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+#navigation a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    width: min(1050px, calc(100% - 30px));
+    margin: 25px auto;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+}
+
+.section-card h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+#description {
+    line-height: 1.75;
+    white-space: pre-line;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+#servicesList {
+    display: grid;
+    gap: 12px;
+}
+
+.service-item {
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+#productsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
+}
+
+.product-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.product-card h3 {
+    margin-top: 0;
+}
+
+.product-price {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product-order {
+    display: inline-block;
+    padding: 9px 13px;
+    background: #16a34a;
+    color: white;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.product-order:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+.notes {
+    margin-top: 20px;
+}
+
+.note {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #f8fafc;
+    border-left: 3px solid #2563eb;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #eee;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    background: #111827;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.button {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.whatsapp {
+    background: #16a34a;
+}
+
+.instagram {
+    background: #c13584;
+}
+
+.facebook {
+    background: #1877f2;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #666;
+}
+
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(0,0,0,0.94);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+#lightboxImage {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 42px;
+    cursor: pointer;
+}
+
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    width: 50px;
+    height: 60px;
+    font-size: 45px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.lightbox-arrow.left {
+    left: 15px;
+}
+
+.lightbox-arrow.right {
+    right: 15px;
+}
+
+#lightboxCounter {
+    position: absolute;
+    bottom: 20px;
+    color: white;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .header-inner {
+        padding: 10px 15px;
+    }
+
+    #businessLogo {
+        width: 50px;
+        height: 50px;
+    }
+
+    #businessName {
+        font-size: 19px;
+    }
+
+    #tagline {
+        font-size: 13px;
+    }
+
+    main {
+        width: calc(100% - 20px);
+        margin: 15px auto;
+    }
+
+    .section-card {
+        padding: 18px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-buttons {
+        flex-direction: column;
+    }
+
+    .button {
+        text-align: center;
+    }
+
+    .lightbox-arrow {
+        width: 40px;
+    }
+  }
