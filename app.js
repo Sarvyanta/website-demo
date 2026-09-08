@@ -1,2 +1,1604 @@
-const params = new URLSearchParams(window.location.search); const businessId = params.get("business") || "bakery"; Promise.all([ fetch( "businesses/" + businessId + "/config/data.json" ).then(response => { if (!response.ok) { throw new Error( "Business configuration not found: " + businessId ); } return response.json(); }), fetch( "config/sarvyanta.json" ).then(response => response.json() ) ]) .then(([data, sarvyanta]) => { const sections = data.sections || {}; /* ========================================= BUSINESS INFORMATION ========================================= */ const businessName = document.getElementById( "businessName" ); const tagline = document.getElementById( "tagline" ); const description = document.getElementById( "description" ); const logoElement = document.getElementById( "businessLogo" ); if (data.business?.name) { businessName.textContent = data.business.name; } else { businessName.style.display = "none"; } if (data.business?.tagline) { tagline.textContent = data.business.tagline; } else { tagline.style.display = "none"; } if ( sections.about !== false && data.business?.description ) { description.textContent = data.business.description; } else { document.getElementById( "about" ).style.display = "none"; document.getElementById( "navAbout" ).style.display = "none"; } /* ========================================= BUSINESS LOGO ========================================= */ if (data.business?.logo) { logoElement.src = "businesses/" + businessId + "/" + data.business.logo; logoElement.alt = (data.business.name || "Business") + " logo"; logoElement.onerror = () => { logoElement.style.display = "none"; }; } else { logoElement.style.display = "none"; } /* ========================================= CONTACT ========================================= */ const phoneElement = document.getElementById( "phone" ); const locationElement = document.getElementById( "location" ); if (data.contact?.phone) { phoneElement.textContent = "Phone: " + data.contact.phone; } else { phoneElement.style.display = "none"; } if (data.contact?.location) { locationElement.textContent = "Location: " + data.contact.location; } else { locationElement.style.display = "none"; } /* ========================================= WHATSAPP ========================================= */ const whatsappNumber = data.whatsapp?.owner === "business" && data.whatsapp?.number ? data.whatsapp.number : sarvyanta.whatsappNumber; /* ========================================= SERVICES ========================================= */ const servicesSection = document.getElementById( "services" ); const servicesList = document.getElementById( "servicesList" ); const navServices = document.getElementById( "navServices" ); if ( sections.services !== false && data.services && data.services.length > 0 ) { data.services.forEach( service => { const listItem = document.createElement( "li" ); listItem.textContent = service; servicesList.appendChild( listItem ); } ); if ( Array.isArray( data.servicesNotes ) && data.servicesNotes.length > 0 ) { const title = document.createElement( "strong" ); title.textContent = "Notes"; servicesSection.appendChild( title ); const notesList = document.createElement( "ul" ); data.servicesNotes.forEach( note => { if ( note && note.trim() !== "" ) { const item = document.createElement( "li" ); item.textContent = note; notesList.appendChild( item ); } } ); if ( notesList.children.length > 0 ) { servicesSection.appendChild( notesList ); } } const enquireButton = document.createElement( "a" ); enquireButton.textContent = "Enquire on WhatsApp"; enquireButton.href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent( "Hi Sarvyanta, I am interested in the services offered by " + data.business.name + "." ); enquireButton.target = "_blank"; enquireButton.id = "servicesWhatsappButton"; servicesSection.appendChild( enquireButton ); } else { servicesSection.style.display = "none"; navServices.style.display = "none"; } /* ========================================= PRODUCTS ========================================= */ const productsSection = document.getElementById( "products" ); const productsList = document.getElementById( "productsList" ); const navProducts = document.getElementById( "navProducts" ); if ( sections.products !== false && data.products && data.products.length > 0 ) { data.products.forEach( product => { const listItem = document.createElement( "li" ); if (product.image) { const image = document.createElement( "img" ); image.src = "businesses/" + businessId + "/" + product.image; image.alt = product.name; image.onerror = () => { image.style.display = "none"; }; listItem.appendChild( image ); } const name = document.createElement( "strong" ); name.textContent = product.name; listItem.appendChild( name ); if ( product.price !== undefined && product.price !== null ) { const price = document.createElement( "div" ); price.textContent = "₹" + product.price; listItem.appendChild( price ); } productsList.appendChild( listItem ); } ); /* ===================================== PRODUCTS NOTES ===================================== */ if ( Array.isArray( data.productsNotes ) && data.productsNotes.length > 0 ) { const title = document.createElement( "strong" ); title.textContent = "Notes"; productsSection.appendChild( title ); const notesList = document.createElement( "ul" ); data.productsNotes.forEach( note => { if ( note && note.trim() !== "" ) { const item = document.createElement( "li" ); item.textContent = note; notesList.appendChild( item ); } } ); if ( notesList.children.length > 0 ) { productsSection.appendChild( notesList ); } } /* ===================================== ORDER ON WHATSAPP ===================================== */ const orderButton = document.createElement( "a" ); orderButton.textContent = "Order on WhatsApp"; orderButton.href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent( "Hi Sarvyanta, I want to order a product from " + data.business.name + "." ); orderButton.target = "_blank"; orderButton.id = "productsWhatsappButton"; productsSection.appendChild( orderButton ); } else { productsSection.style.display = "none"; navProducts.style.display = "none"; } /* ========================================= GALLERY ========================================= */ const gallerySection = document.getElementById( "gallery" ); const galleryList = document.getElementById( "galleryList" ); const navGallery = document.getElementById( "navGallery" ); if ( sections.gallery !== false && data.gallery && data.gallery.length > 0 ) { const galleryImages = data.gallery; /* ===================================== FEATURED IMAGES ===================================== */ const featuredCount = Math.min( 3, galleryImages.length ); galleryImages .slice( 0, featuredCount ) .forEach( (image, index) => { const galleryItem = document.createElement( "div" ); galleryItem.className = "gallery-item"; const img = document.createElement( "img" ); img.src = "businesses/" + businessId + "/" + image; img.alt = (data.business?.name || "Business") + " gallery image " + (index + 1); img.onerror = () => { galleryItem.style.display = "none"; }; galleryItem.appendChild( img ); galleryItem.addEventListener( "click", () => { openGalleryLightbox( index ); } ); galleryList.appendChild( galleryItem ); } ); /* ===================================== VIEW ALL FOLDER ===================================== */ if ( galleryImages.length > 3 ) { const viewAll = document.createElement( "div" ); viewAll.id = "galleryViewAll"; const folderContent = document.createElement( "div" ); folderContent.className = "gallery-folder-content"; const folderIcon = document.createElement( "span" ); folderIcon.className = "gallery-folder-icon"; folderIcon.textContent = "📁"; const folderTitle = document.createElement( "span" ); folderTitle.className = "gallery-folder-title"; folderTitle.textContent = "View All Photos"; const folderCount = document.createElement( "span" ); folderCount.className = "gallery-folder-count"; folderCount.textContent = galleryImages.length + " photos"; folderContent.appendChild( folderIcon ); folderContent.appendChild( folderTitle ); folderContent.appendChild( folderCount ); viewAll.appendChild( folderContent ); viewAll.addEventListener( "click", () => { openAllGalleryPhotos(); } ); galleryList.appendChild( viewAll ); } /* ===================================== LIGHTBOX ===================================== */ const lightbox = document.createElement( "div" ); lightbox.id = "galleryLightbox"; const closeButton = document.createElement( "button" ); closeButton.id = "galleryLightboxClose"; closeButton.type = "button"; closeButton.textContent = "×"; closeButton.setAttribute( "aria-label", "Close image" ); const previousButton = document.createElement( "button" ); previousButton.id = "galleryPrev"; previousButton.type = "button"; previousButton.textContent = "‹"; previousButton.setAttribute( "aria-label", "Previous image" ); const nextButton = document.createElement( "button" ); nextButton.id = "galleryNext"; nextButton.type = "button"; nextButton.textContent = "›"; nextButton.setAttribute( "aria-label", "Next image" ); const lightboxImage = document.createElement( "img" ); lightboxImage.id = "galleryLightboxImage"; const counter = document.createElement( "div" ); counter.id = "galleryLightboxCounter"; lightbox.appendChild( closeButton ); lightbox.appendChild( previousButton ); lightbox.appendChild( nextButton ); lightbox.appendChild( lightboxImage ); lightbox.appendChild( counter ); document.body.appendChild( lightbox ); /* ===================================== CURRENT IMAGE ===================================== */ let currentGalleryIndex = 0; function showGalleryImage( index ) { if ( index < 0 ) { index = galleryImages.length - 1; } if ( index >= galleryImages.length ) { index = 0; } currentGalleryIndex = index; lightboxImage.style.opacity = "0"; setTimeout( () => { lightboxImage.src = "businesses/" + businessId + "/" + galleryImages[ currentGalleryIndex ]; lightboxImage.alt = (data.business?.name || "Business") + " gallery image " + ( currentGalleryIndex + 1 ); counter.textContent = ( currentGalleryIndex + 1 ) + " / " + galleryImages.length; lightboxImage.style.opacity = "1"; }, 80 ); } /* ===================================== OPEN IMAGE ===================================== */ window.openGalleryLightbox = function(index) { showGalleryImage( index ); lightbox.classList.add( "active" ); document.body.style.overflow = "hidden"; }; /* ===================================== CLOSE IMAGE ===================================== */ window.closeGalleryLightbox = function() { lightbox.classList.remove( "active" ); lightboxImage.src = ""; document.body.style.overflow = ""; }; /* ===================================== NEXT / PREVIOUS ===================================== */ function nextGalleryImage() { showGalleryImage( currentGalleryIndex + 1 ); } function previousGalleryImage() { showGalleryImage( currentGalleryIndex - 1 ); } previousButton.addEventListener( "click", event => { event.stopPropagation(); previousGalleryImage(); } ); nextButton.addEventListener( "click", event => { event.stopPropagation(); nextGalleryImage(); } ); /* ===================================== TOUCH SWIPE ===================================== */ let touchStartX = 0; let touchStartY = 0; lightbox.addEventListener( "touchstart", event => { if ( event.touches.length !== 1 ) { return; } touchStartX = event.touches[0].clientX; touchStartY = event.touches[0].clientY; }, { passive: true } ); lightbox.addEventListener( "touchend", event => { if ( event.changedTouches.length !== 1 ) { return; } const touchEndX = event.changedTouches[0].clientX; const touchEndY = event.changedTouches[0].clientY; const differenceX = touchEndX - touchStartX; const differenceY = touchEndY - touchStartY; /* Horizontal swipe */ if ( Math.abs(differenceX) > 50 && Math.abs(differenceX) > Math.abs(differenceY) ) { if ( differenceX < 0 ) { nextGalleryImage(); } else { previousGalleryImage(); } } }, { passive: true } ); /* ===================================== CLICK LEFT / RIGHT OF IMAGE ===================================== */ lightbox.addEventListener( "click", event => { if ( event.target !== lightbox ) { return; } closeGalleryLightbox(); } ); closeButton.addEventListener( "click", () => { closeGalleryLightbox(); } ); /* ===================================== FULL GALLERY ===================================== */ const allPhotos = document.createElement( "div" ); allPhotos.id = "galleryAllPhotos"; const allPhotosClose = document.createElement( "button" ); allPhotosClose.id = "galleryAllPhotosClose"; allPhotosClose.type = "button"; allPhotosClose.textContent = "×"; const allPhotosTitle = document.createElement( "h3" ); allPhotosTitle.id = "galleryAllPhotosTitle"; allPhotosTitle.textContent = "All Photos"; const allPhotosGrid = document.createElement( "div" ); allPhotosGrid.id = "galleryAllPhotosGrid"; allPhotos.appendChild( allPhotosClose ); allPhotos.appendChild( allPhotosTitle ); allPhotos.appendChild( allPhotosGrid ); document.body.appendChild( allPhotos ); galleryImages.forEach( (image, index) => { const img = document.createElement( "img" ); img.src = "businesses/" + businessId + "/" + image; img.alt = (data.business?.name || "Business") + " gallery image " + (index + 1); img.onerror = () => { img.style.display = "none"; }; img.addEventListener( "click", () => { closeAllGalleryPhotos(); openGalleryLightbox( index ); } ); allPhotosGrid.appendChild( img ); } ); /* ===================================== FULL GALLERY OPEN / CLOSE ===================================== */ window.openAllGalleryPhotos = function() { allPhotos.classList.add( "active" ); document.body.style.overflow = "hidden"; }; window.closeAllGalleryPhotos = function() { allPhotos.classList.remove( "active" ); document.body.style.overflow = ""; }; allPhotosClose.addEventListener( "click", () => { closeAllGalleryPhotos(); } ); /* ===================================== ESCAPE KEY ===================================== */ document.addEventListener( "keydown", event => { if ( event.key === "Escape" ) { closeGalleryLightbox(); closeAllGalleryPhotos(); } if ( lightbox.classList.contains( "active" ) ) { if ( event.key === "ArrowRight" ) { nextGalleryImage(); } if ( event.key === "ArrowLeft" ) { previousGalleryImage(); } } } ); } else { gallerySection.style.display = "none"; navGallery.style.display = "none"; } /* ========================================= CONTACT SECTION ========================================= */ const contactSection = document.getElementById( "contact" ); if ( sections.contact === false ) { contactSection.style.display = "none"; document.getElementById( "navContact" ).style.display = "none"; } /* ========================================= SOCIAL LINKS ========================================= */ const socialLinks = document.getElementById( "socialLinks" ); const instagramButton = document.getElementById( "instagramButton" ); const facebookButton = document.getElementById( "facebookButton" ); let hasSocialLinks = false; if ( data.social?.instagram ) { instagramButton.href = data.social.instagram; hasSocialLinks = true; } else { instagramButton.style.display = "none"; } if ( data.social?.facebook ) { facebookButton.href = data.social.facebook; hasSocialLinks = true; } else { facebookButton.style.display = "none"; } if (!hasSocialLinks) { socialLinks.style.display = "none"; } /* ========================================= CONTACT WHATSAPP ========================================= */ const whatsappButton = document.getElementById( "whatsappButton" ); if ( whatsappNumber && sections.contact !== false ) { const message = "Hi Sarvyanta, I want to enquire about " + data.business.name + "."; whatsappButton.href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent( message ); } else { whatsappButton.style.display = "none"; } /* ========================================= SARVYANTA BRANDING ========================================= */ document.querySelector( "footer p" ).textContent = sarvyanta.collaborationText; }) .catch(error => { console.error( "Error loading website data:", error ); }); 
-/* ========================================= COMPACT HEADER ON SCROLL ========================================= */ window.addEventListener("scroll", function () { const topBar = document.getElementById("topBar"); if (!topBar) return; if (window.scrollY > 80) { topBar.classList.add("scrolled"); } else { topBar.classList.remove("scrolled"); } }); 
+document.addEventListener("DOMContentLoaded", function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const businessId = params.get("business") || "bakery";
+
+    const businessConfigUrl =
+        `businesses/${businessId}/config/data.json`;
+
+    const sarvyantaConfigUrl =
+        "config/sarvyanta.json";
+
+
+    // --------------------------------------------------
+    // BASIC ELEMENTS
+    // --------------------------------------------------
+
+    const businessLogo = document.getElementById("businessLogo");
+    const businessName = document.getElementById("businessName");
+    const tagline = document.getElementById("tagline");
+    const description = document.getElementById("description");
+
+    const phone = document.getElementById("phone");
+    const location = document.getElementById("location");
+
+    const servicesList = document.getElementById("servicesList");
+    const productsList = document.getElementById("productsList");
+    const galleryList = document.getElementById("galleryList");
+
+    const whatsappButton = document.getElementById("whatsappButton");
+
+    const instagramButton =
+        document.getElementById("instagramButton");
+
+    const facebookButton =
+        document.getElementById("facebookButton");
+
+    const socialLinks =
+        document.getElementById("socialLinks");
+
+
+    // --------------------------------------------------
+    // LOAD CONFIGURATION
+    // --------------------------------------------------
+
+    Promise.all([
+        fetch(businessConfigUrl).then(response => {
+            if (!response.ok) {
+                throw new Error(
+                    `Business configuration not found: ${businessConfigUrl}`
+                );
+            }
+
+            return response.json();
+        }),
+
+        fetch(sarvyantaConfigUrl).then(response => {
+            if (!response.ok) {
+                throw new Error(
+                    `Sarvyanta configuration not found: ${sarvyantaConfigUrl}`
+                );
+            }
+
+            return response.json();
+        })
+    ])
+
+    .then(([businessConfig, sarvyanta]) => {
+
+        const business =
+            businessConfig.business || businessConfig;
+
+        const sections =
+            businessConfig.sections || {};
+
+        const services =
+            sections.services ||
+            businessConfig.services ||
+            [];
+
+        const products =
+            sections.products ||
+            businessConfig.products ||
+            [];
+
+        const gallery =
+            sections.gallery ||
+            businessConfig.gallery ||
+            [];
+
+        const contact =
+            sections.contact ||
+            businessConfig.contact ||
+            {};
+
+        const social =
+            sections.social ||
+            businessConfig.social ||
+            {};
+
+
+        // --------------------------------------------------
+        // BUSINESS IDENTITY
+        // --------------------------------------------------
+
+        if (business.name) {
+            businessName.textContent = business.name;
+
+            document.title = business.name;
+        }
+
+        if (business.tagline) {
+            tagline.textContent = business.tagline;
+        }
+
+        if (business.description) {
+            description.textContent = business.description;
+        }
+
+
+        // --------------------------------------------------
+        // LOGO
+        // --------------------------------------------------
+
+        if (business.logo) {
+
+            businessLogo.src = business.logo;
+
+            businessLogo.alt =
+                `${business.name || "Business"} Logo`;
+
+            businessLogo.style.display = "block";
+
+        } else {
+
+            businessLogo.style.display = "none";
+        }
+
+
+        // --------------------------------------------------
+        // CONTACT
+        // --------------------------------------------------
+
+        let businessWhatsappNumber = null;
+
+        if (
+            businessConfig.whatsapp &&
+            businessConfig.whatsapp.owner === "business" &&
+            businessConfig.whatsapp.number
+        ) {
+            businessWhatsappNumber =
+                businessConfig.whatsapp.number;
+        }
+
+        if (
+            contact.whatsapp &&
+            typeof contact.whatsapp === "object" &&
+            contact.whatsapp.number
+        ) {
+            businessWhatsappNumber =
+                contact.whatsapp.number;
+        }
+
+        if (contact.phone) {
+
+            phone.textContent =
+                `Phone: ${contact.phone}`;
+
+        } else if (business.phone) {
+
+            phone.textContent =
+                `Phone: ${business.phone}`;
+
+        } else {
+
+            phone.style.display = "none";
+        }
+
+
+        if (contact.location) {
+
+            location.textContent =
+                `Location: ${contact.location}`;
+
+        } else if (business.location) {
+
+            location.textContent =
+                `Location: ${business.location}`;
+
+        } else {
+
+            location.style.display = "none";
+        }
+
+
+        // --------------------------------------------------
+        // WHATSAPP NUMBER
+        // --------------------------------------------------
+
+        const globalWhatsappNumber =
+            sarvyanta.whatsappNumber || "";
+
+        const whatsappNumber =
+            businessWhatsappNumber ||
+            globalWhatsappNumber;
+
+
+        if (whatsappNumber) {
+
+            const cleanNumber =
+                String(whatsappNumber)
+                    .replace(/\D/g, "");
+
+            whatsappButton.href =
+                `https://wa.me/${cleanNumber}`;
+
+            whatsappButton.target = "_blank";
+
+            whatsappButton.rel =
+                "noopener noreferrer";
+
+            whatsappButton.style.display =
+                "inline-block";
+
+        } else {
+
+            whatsappButton.style.display = "none";
+        }
+
+
+        // --------------------------------------------------
+        // SERVICES
+        // --------------------------------------------------
+
+        servicesList.innerHTML = "";
+
+        if (Array.isArray(services) && services.length > 0) {
+
+            services.forEach(service => {
+
+                const li =
+                    document.createElement("li");
+
+                if (typeof service === "string") {
+
+                    li.textContent = service;
+
+                } else if (service && service.name) {
+
+                    li.textContent = service.name;
+
+                }
+
+                servicesList.appendChild(li);
+            });
+
+        } else {
+
+            const li =
+                document.createElement("li");
+
+            li.textContent =
+                "Services information will be updated soon.";
+
+            servicesList.appendChild(li);
+        }
+
+
+        // --------------------------------------------------
+        // SERVICES NOTES
+        // --------------------------------------------------
+
+        const servicesNotes =
+            sections.servicesNotes ||
+            businessConfig.servicesNotes ||
+            [];
+
+        renderNotes(
+            servicesNotes,
+            "services",
+            document.getElementById("services")
+        );
+
+
+        // --------------------------------------------------
+        // SERVICES WHATSAPP ENQUIRE BUTTON
+        // --------------------------------------------------
+
+        addWhatsappButtonToSection(
+            document.getElementById("services"),
+            whatsappNumber,
+            "Enquire on WhatsApp",
+            "whatsapp-enquire"
+        );
+
+
+        // --------------------------------------------------
+        // PRODUCTS
+        // --------------------------------------------------
+
+        productsList.innerHTML = "";
+
+        if (Array.isArray(products) && products.length > 0) {
+
+            products.forEach(product => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "product-card";
+
+
+                const name =
+                    document.createElement("h3");
+
+                name.textContent =
+                    product.name || "Product";
+
+
+                card.appendChild(name);
+
+
+                if (
+                    product.description
+                ) {
+
+                    const productDescription =
+                        document.createElement("p");
+
+                    productDescription.textContent =
+                        product.description;
+
+                    card.appendChild(
+                        productDescription
+                    );
+                }
+
+
+                if (
+                    product.price !== undefined &&
+                    product.price !== null &&
+                    product.price !== ""
+                ) {
+
+                    const price =
+                        document.createElement("div");
+
+                    price.className =
+                        "product-price";
+
+                    price.textContent =
+                        formatPrice(product.price);
+
+                    card.appendChild(price);
+                }
+
+
+                // Product-level WhatsApp order button
+                if (whatsappNumber) {
+
+                    const orderButton =
+                        document.createElement("a");
+
+                    orderButton.className =
+                        "whatsapp-order";
+
+                    orderButton.href =
+                        createWhatsappUrl(
+                            whatsappNumber,
+                            `Hi, I am interested in ${product.name || "this product"}.`
+                        );
+
+                    orderButton.target =
+                        "_blank";
+
+                    orderButton.rel =
+                        "noopener noreferrer";
+
+                    orderButton.textContent =
+                        "Order on WhatsApp";
+
+                    card.appendChild(
+                        orderButton
+                    );
+                }
+
+
+                productsList.appendChild(card);
+            });
+
+        } else {
+
+            const message =
+                document.createElement("p");
+
+            message.textContent =
+                "Products information will be updated soon.";
+
+            productsList.appendChild(message);
+        }
+
+
+        // --------------------------------------------------
+        // PRODUCTS NOTES
+        // IMPORTANT:
+        // Notes appear BEFORE the section-level button.
+        // --------------------------------------------------
+
+        const productsNotes =
+            sections.productsNotes ||
+            businessConfig.productsNotes ||
+            [];
+
+        renderNotes(
+            productsNotes,
+            "products",
+            document.getElementById("products")
+        );
+
+
+        // --------------------------------------------------
+        // PRODUCT SECTION WHATSAPP BUTTON
+        // --------------------------------------------------
+
+        addWhatsappButtonToSection(
+            document.getElementById("products"),
+            whatsappNumber,
+            "Enquire on WhatsApp",
+            "whatsapp-enquire"
+        );
+
+
+        // --------------------------------------------------
+        // GALLERY
+        // --------------------------------------------------
+
+        setupGallery(
+            gallery,
+            galleryList
+        );
+
+
+        // --------------------------------------------------
+        // SOCIAL LINKS
+        // --------------------------------------------------
+
+        let hasSocialLink = false;
+
+
+        const instagram =
+            social.instagram ||
+            businessConfig.instagram ||
+            "";
+
+        const facebook =
+            social.facebook ||
+            businessConfig.facebook ||
+            "";
+
+
+        if (instagram) {
+
+            instagramButton.href =
+                instagram;
+
+            instagramButton.style.display =
+                "inline-block";
+
+            hasSocialLink = true;
+
+        } else {
+
+            instagramButton.style.display =
+                "none";
+        }
+
+
+        if (facebook) {
+
+            facebookButton.href =
+                facebook;
+
+            facebookButton.style.display =
+                "inline-block";
+
+            hasSocialLink = true;
+
+        } else {
+
+            facebookButton.style.display =
+                "none";
+        }
+
+
+        if (!hasSocialLink) {
+
+            socialLinks.style.display =
+                "none";
+        }
+
+
+        // --------------------------------------------------
+        // FOOTER
+        // --------------------------------------------------
+
+        const footerText =
+            document.querySelector("footer p");
+
+        if (
+            footerText &&
+            sarvyanta.collaborationText
+        ) {
+
+            footerText.textContent =
+                sarvyanta.collaborationText;
+        }
+
+
+        // --------------------------------------------------
+        // INITIAL TOP BAR HEIGHT
+        // --------------------------------------------------
+
+        updateTopBarHeight();
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "Error loading website configuration:",
+            error
+        );
+
+    });
+
+
+    // ==================================================
+    // NOTES
+    // ==================================================
+
+    function renderNotes(
+        notes,
+        className,
+        section
+    ) {
+
+        if (
+            !section ||
+            !Array.isArray(notes) ||
+            notes.length === 0
+        ) {
+            return;
+        }
+
+
+        const notesContainer =
+            document.createElement("div");
+
+        notesContainer.className =
+            `${className}-notes`;
+
+
+        notes.forEach(note => {
+
+            if (!note) {
+                return;
+            }
+
+            const p =
+                document.createElement("p");
+
+            p.textContent =
+                `📌 ${note}`;
+
+            notesContainer.appendChild(p);
+        });
+
+
+        if (notesContainer.children.length === 0) {
+            return;
+        }
+
+
+        /*
+         * Insert notes immediately after the
+         * main content of the section.
+         *
+         * For products this means:
+         *
+         * Product cards
+         *       ↓
+         * Products notes
+         *       ↓
+         * Enquire button
+         */
+
+        if (className === "products") {
+
+            const existingButton =
+                section.querySelector(
+                    ".whatsapp-enquire"
+                );
+
+            if (existingButton) {
+
+                existingButton.parentNode.insertBefore(
+                    notesContainer,
+                    existingButton
+                );
+
+            } else {
+
+                section.appendChild(
+                    notesContainer
+                );
+            }
+
+        } else {
+
+            section.appendChild(
+                notesContainer
+            );
+        }
+    }
+
+
+    // ==================================================
+    // WHATSAPP BUTTON
+    // ==================================================
+
+    function addWhatsappButtonToSection(
+        section,
+        number,
+        text,
+        className
+    ) {
+
+        if (
+            !section ||
+            !number
+        ) {
+            return;
+        }
+
+
+        const existingButton =
+            section.querySelector(
+                `.${className}`
+            );
+
+
+        if (existingButton) {
+            return;
+        }
+
+
+        const button =
+            document.createElement("a");
+
+        button.className =
+            className;
+
+        button.href =
+            createWhatsappUrl(
+                number,
+                "Hi, I would like to know more about your services."
+            );
+
+        button.target =
+            "_blank";
+
+        button.rel =
+            "noopener noreferrer";
+
+        button.textContent =
+            text;
+
+
+        section.appendChild(button);
+    }
+
+
+    function createWhatsappUrl(
+        number,
+        message
+    ) {
+
+        const cleanNumber =
+            String(number)
+                .replace(/\D/g, "");
+
+        return (
+            `https://wa.me/${cleanNumber}` +
+            `?text=${encodeURIComponent(message)}`
+        );
+    }
+
+
+    // ==================================================
+    // PRICE FORMAT
+    // ==================================================
+
+    function formatPrice(price) {
+
+        if (
+            typeof price === "number"
+        ) {
+
+            return (
+                "₹" +
+                price.toLocaleString("en-IN")
+            );
+        }
+
+
+        if (
+            typeof price === "string"
+        ) {
+
+            return price;
+        }
+
+
+        return "";
+    }
+
+
+    // ==================================================
+    // GALLERY
+    // ==================================================
+
+    function setupGallery(
+        gallery,
+        galleryContainer
+    ) {
+
+        if (
+            !galleryContainer
+        ) {
+            return;
+        }
+
+
+        galleryContainer.innerHTML = "";
+
+
+        const images =
+            normalizeGallery(gallery);
+
+
+        if (
+            images.length === 0
+        ) {
+
+            const message =
+                document.createElement("p");
+
+            message.textContent =
+                "Gallery images will be added soon.";
+
+            galleryContainer.appendChild(
+                message
+            );
+
+            return;
+        }
+
+
+        // Store gallery images globally
+        window.sarvyantaGalleryImages =
+            images;
+
+
+        // Show first 3 images
+        const featuredImages =
+            images.slice(
+                0,
+                3
+            );
+
+
+        featuredImages.forEach(
+            (image, index) => {
+
+                createGalleryItem(
+                    image,
+                    index,
+                    galleryContainer
+                );
+            }
+        );
+
+
+        // More than 3 images
+        if (images.length > 3) {
+
+            const folder =
+                document.createElement("div");
+
+            folder.className =
+                "gallery-folder";
+
+            folder.textContent =
+                `View All Photos (${images.length})`;
+
+
+            folder.addEventListener(
+                "click",
+                function () {
+
+                    openAllPhotos();
+                }
+            );
+
+
+            galleryContainer.appendChild(
+                folder
+            );
+        }
+    }
+
+
+    function normalizeGallery(
+        gallery
+    ) {
+
+        if (!Array.isArray(gallery)) {
+            return [];
+        }
+
+
+        const result = [];
+
+
+        gallery.forEach(item => {
+
+            if (!item) {
+                return;
+            }
+
+
+            if (typeof item === "string") {
+
+                result.push({
+                    src: item,
+                    title: ""
+                });
+
+                return;
+            }
+
+
+            if (item.image) {
+
+                result.push({
+                    src: item.image,
+                    title: item.title || ""
+                });
+
+                return;
+            }
+
+
+            if (item.src) {
+
+                result.push({
+                    src: item.src,
+                    title: item.title || ""
+                });
+
+                return;
+            }
+
+
+            if (item.path) {
+
+                result.push({
+                    src: item.path,
+                    title: item.title || ""
+                });
+            }
+        });
+
+
+        return result;
+    }
+
+
+    function createGalleryItem(
+        image,
+        index,
+        container
+    ) {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "gallery-item";
+
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            image.src;
+
+        img.alt =
+            image.title ||
+            `Gallery Image ${index + 1}`;
+
+        img.loading =
+            "lazy";
+
+
+        item.appendChild(img);
+
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                openLightbox(index);
+            }
+        );
+
+
+        container.appendChild(item);
+    }
+
+
+    // ==================================================
+    // CREATE GALLERY OVERLAYS
+    // ==================================================
+
+    function createGalleryOverlays() {
+
+        let lightbox =
+            document.getElementById(
+                "galleryLightbox"
+            );
+
+
+        let allPhotos =
+            document.getElementById(
+                "galleryAllPhotos"
+            );
+
+
+        // ----------------------------------------------
+        // LIGHTBOX
+        // ----------------------------------------------
+
+        if (!lightbox) {
+
+            lightbox =
+                document.createElement("div");
+
+            lightbox.id =
+                "galleryLightbox";
+
+
+            const close =
+                document.createElement("button");
+
+            close.id =
+                "galleryLightboxClose";
+
+            close.innerHTML =
+                "×";
+
+            close.setAttribute(
+                "aria-label",
+                "Close"
+            );
+
+
+            const prev =
+                document.createElement("button");
+
+            prev.id =
+                "galleryPrev";
+
+            prev.innerHTML =
+                "‹";
+
+            prev.setAttribute(
+                "aria-label",
+                "Previous"
+            );
+
+
+            const img =
+                document.createElement("img");
+
+            img.id =
+                "galleryLightboxImage";
+
+
+            const next =
+                document.createElement("button");
+
+            next.id =
+                "galleryNext";
+
+            next.innerHTML =
+                "›";
+
+            next.setAttribute(
+                "aria-label",
+                "Next"
+            );
+
+
+            const counter =
+                document.createElement("div");
+
+            counter.id =
+                "galleryLightboxCounter";
+
+
+            lightbox.appendChild(close);
+            lightbox.appendChild(prev);
+            lightbox.appendChild(img);
+            lightbox.appendChild(next);
+            lightbox.appendChild(counter);
+
+
+            document.body.appendChild(
+                lightbox
+            );
+        }
+
+
+        // ----------------------------------------------
+        // ALL PHOTOS
+        // ----------------------------------------------
+
+        if (!allPhotos) {
+
+            allPhotos =
+                document.createElement("div");
+
+            allPhotos.id =
+                "galleryAllPhotos";
+
+
+            const close =
+                document.createElement("button");
+
+            close.id =
+                "galleryAllPhotosClose";
+
+            close.innerHTML =
+                "×";
+
+            close.setAttribute(
+                "aria-label",
+                "Close"
+            );
+
+
+            const title =
+                document.createElement("h2");
+
+            title.id =
+                "galleryAllPhotosTitle";
+
+            title.textContent =
+                "All Photos";
+
+
+            const grid =
+                document.createElement("div");
+
+            grid.id =
+                "galleryAllPhotosGrid";
+
+
+            allPhotos.appendChild(close);
+            allPhotos.appendChild(title);
+            allPhotos.appendChild(grid);
+
+
+            document.body.appendChild(
+                allPhotos
+            );
+        }
+    }
+
+
+    createGalleryOverlays();
+
+
+    // ==================================================
+    // LIGHTBOX STATE
+    // ==================================================
+
+    let currentGalleryIndex = 0;
+
+
+    function openLightbox(index) {
+
+        const images =
+            window.sarvyantaGalleryImages || [];
+
+
+        if (
+            images.length === 0 ||
+            index < 0 ||
+            index >= images.length
+        ) {
+            return;
+        }
+
+
+        currentGalleryIndex =
+            index;
+
+
+        const lightbox =
+            document.getElementById(
+                "galleryLightbox"
+            );
+
+        const imageElement =
+            document.getElementById(
+                "galleryLightboxImage"
+            );
+
+        const counter =
+            document.getElementById(
+                "galleryLightboxCounter"
+            );
+
+
+        imageElement.src =
+            images[index].src;
+
+        imageElement.alt =
+            images[index].title ||
+            `Gallery Image ${index + 1}`;
+
+
+        counter.textContent =
+            `${index + 1} / ${images.length}`;
+
+
+        lightbox.style.display =
+            "flex";
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    function closeLightbox() {
+
+        const lightbox =
+            document.getElementById(
+                "galleryLightbox"
+            );
+
+
+        if (!lightbox) {
+            return;
+        }
+
+
+        lightbox.style.display =
+            "none";
+
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    function showPreviousImage() {
+
+        const images =
+            window.sarvyantaGalleryImages || [];
+
+
+        if (images.length === 0) {
+            return;
+        }
+
+
+        currentGalleryIndex =
+            (
+                currentGalleryIndex -
+                1 +
+                images.length
+            ) %
+            images.length;
+
+
+        openLightbox(
+            currentGalleryIndex
+        );
+    }
+
+
+    function showNextImage() {
+
+        const images =
+            window.sarvyantaGalleryImages || [];
+
+
+        if (images.length === 0) {
+            return;
+        }
+
+
+        currentGalleryIndex =
+            (
+                currentGalleryIndex +
+                1
+            ) %
+            images.length;
+
+
+        openLightbox(
+            currentGalleryIndex
+        );
+    }
+
+
+    // ==================================================
+    // ALL PHOTOS
+    // ==================================================
+
+    function openAllPhotos() {
+
+        const images =
+            window.sarvyantaGalleryImages || [];
+
+
+        if (images.length === 0) {
+            return;
+        }
+
+
+        const overlay =
+            document.getElementById(
+                "galleryAllPhotos"
+            );
+
+        const grid =
+            document.getElementById(
+                "galleryAllPhotosGrid"
+            );
+
+
+        grid.innerHTML = "";
+
+
+        images.forEach(
+            (image, index) => {
+
+                const img =
+                    document.createElement("img");
+
+                img.src =
+                    image.src;
+
+                img.alt =
+                    image.title ||
+                    `Gallery Image ${index + 1}`;
+
+                img.loading =
+                    "lazy";
+
+
+                img.addEventListener(
+                    "click",
+                    function () {
+
+                        closeAllPhotos();
+
+                        openLightbox(index);
+                    }
+                );
+
+
+                grid.appendChild(img);
+            }
+        );
+
+
+        overlay.style.display =
+            "block";
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    function closeAllPhotos() {
+
+        const overlay =
+            document.getElementById(
+                "galleryAllPhotos"
+            );
+
+
+        if (!overlay) {
+            return;
+        }
+
+
+        overlay.style.display =
+            "none";
+
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    // ==================================================
+    // GALLERY BUTTON EVENTS
+    // ==================================================
+
+    document
+        .getElementById(
+            "galleryLightboxClose"
+        )
+        .addEventListener(
+            "click",
+            closeLightbox
+        );
+
+
+    document
+        .getElementById(
+            "galleryPrev"
+        )
+        .addEventListener(
+            "click",
+            showPreviousImage
+        );
+
+
+    document
+        .getElementById(
+            "galleryNext"
+        )
+        .addEventListener(
+            "click",
+            showNextImage
+        );
+
+
+    document
+        .getElementById(
+            "galleryAllPhotosClose"
+        )
+        .addEventListener(
+            "click",
+            closeAllPhotos
+        );
+
+
+    // Close when clicking dark background
+    document
+        .getElementById(
+            "galleryLightbox"
+        )
+        .addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === this
+                ) {
+                    closeLightbox();
+                }
+            }
+        );
+
+
+    // ==================================================
+    // KEYBOARD CONTROLS
+    // ==================================================
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            const lightbox =
+                document.getElementById(
+                    "galleryLightbox"
+                );
+
+            const allPhotos =
+                document.getElementById(
+                    "galleryAllPhotos"
+                );
+
+
+            if (
+                lightbox &&
+                lightbox.style.display === "flex"
+            ) {
+
+                if (event.key === "ArrowLeft") {
+
+                    showPreviousImage();
+
+                } else if (
+                    event.key === "ArrowRight"
+                ) {
+
+                    showNextImage();
+
+                } else if (
+                    event.key === "Escape"
+                ) {
+
+                    closeLightbox();
+                }
+            }
+
+
+            if (
+                allPhotos &&
+                allPhotos.style.display === "block" &&
+                event.key === "Escape"
+            ) {
+
+                closeAllPhotos();
+            }
+        }
+    );
+
+
+    // ==================================================
+    // TOUCH / SWIPE SUPPORT
+    // ==================================================
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+
+    const lightboxElement =
+        document.getElementById(
+            "galleryLightbox"
+        );
+
+
+    lightboxElement.addEventListener(
+        "touchstart",
+        function (event) {
+
+            if (
+                event.changedTouches.length > 0
+            ) {
+
+                touchStartX =
+                    event.changedTouches[0].screenX;
+            }
+        },
+        { passive: true }
+    );
+
+
+    lightboxElement.addEventListener(
+        "touchend",
+        function (event) {
+
+            if (
+                event.changedTouches.length === 0
+            ) {
+                return;
+            }
+
+
+            touchEndX =
+                event.changedTouches[0].screenX;
+
+
+            handleSwipe();
+        },
+        { passive: true }
+    );
+
+
+    function handleSwipe() {
+
+        const difference =
+            touchEndX -
+            touchStartX;
+
+
+        if (
+            Math.abs(difference) < 50
+        ) {
+            return;
+        }
+
+
+        if (difference > 0) {
+
+            showPreviousImage();
+
+        } else {
+
+            showNextImage();
+        }
+    }
+
+
+    // ==================================================
+    // DYNAMIC TOP BAR HEIGHT
+    // ==================================================
+    // This keeps the page content correctly positioned
+    // below the fixed header + navigation.
+    //
+    // No hard-coded 390px / 205px / 185px values.
+    // ==================================================
+
+    const topBar =
+        document.getElementById(
+            "topBar"
+        );
+
+
+    if (topBar) {
+
+        function updateTopBarHeight() {
+
+            const height =
+                topBar.offsetHeight;
+
+
+            document.documentElement
+                .style
+                .setProperty(
+                    "--topbar-height",
+                    height + "px"
+                );
+        }
+
+
+        function updateScrollState() {
+
+            if (
+                window.scrollY > 80
+            ) {
+
+                topBar.classList.add(
+                    "scrolled"
+                );
+
+            } else {
+
+                topBar.classList.remove(
+                    "scrolled"
+                );
+            }
+
+
+            requestAnimationFrame(
+                function () {
+
+                    updateTopBarHeight();
+                }
+            );
+        }
+
+
+        window.addEventListener(
+            "scroll",
+            updateScrollState,
+            { passive: true }
+        );
+
+
+        window.addEventListener(
+            "resize",
+            updateTopBarHeight
+        );
+
+
+        window.addEventListener(
+            "load",
+            updateTopBarHeight
+        );
+
+
+        updateTopBarHeight();
+
+
+        setTimeout(
+            updateTopBarHeight,
+            100
+        );
+    }
+
+});
