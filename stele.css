@@ -293,18 +293,26 @@ section h2::after {
 
 #servicesWhatsappButton,
 #productsWhatsappButton,
-#whatsappButton {
+#whatsappButton,
+#instagramButton {
     display: inline-block;
     margin-top: 24px;
     padding: 13px 22px;
     border-radius: 10px;
     text-decoration: none;
-    background: var(--primary);
     color: white;
     font-weight: 700;
     font-size: 15px;
-    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     transition: all 0.2s ease;
+}
+
+/* WhatsApp Buttons */
+
+#servicesWhatsappButton,
+#productsWhatsappButton,
+#whatsappButton {
+    background: var(--primary);
 }
 
 #servicesWhatsappButton:hover,
@@ -313,6 +321,24 @@ section h2::after {
     background: var(--primary-dark);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+}
+
+/* Instagram Button */
+
+#instagramButton {
+    background: linear-gradient(
+        45deg,
+        #f58529,
+        #dd2a7b,
+        #8134af,
+        #515bd4
+    );
+}
+
+#instagramButton:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+    box-shadow: 0 8px 20px rgba(221, 42, 123, 0.28);
 }
 
 /* =========================================
