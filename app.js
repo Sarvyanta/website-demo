@@ -126,9 +126,60 @@ if (
 
     const sections =
       businessData.sections || {};
+  // SEO
+  const seoTitle =
+    business.seoTitle ||
+    business.name ||
+    "Sarvyanta Business";
 
-    document.title =
-      business.name || "Sarvyanta";
+  const seoDescription =
+    business.seoDescription ||
+    business.description ||
+    "Discover this business on Sarvyanta.";
+
+  const canonicalUrl =
+    window.location.origin +
+    window.location.pathname;
+
+  document.title = seoTitle;
+
+  $("seo-title").textContent = seoTitle;
+
+  $("seo-description").setAttribute(
+    "content",
+    seoDescription
+  );
+
+  $("canonical-url").setAttribute(
+    "href",
+    canonicalUrl
+  );
+
+  $("og-title").setAttribute(
+    "content",
+    seoTitle
+  );
+
+  $("og-description").setAttribute(
+    "content",
+    seoDescription
+  );
+
+  $("og-url").setAttribute(
+    "content",
+    canonicalUrl
+  );
+
+  $("twitter-title").setAttribute(
+    "content",
+    seoTitle
+  );
+
+  $("twitter-description").setAttribute(
+    "content",
+    seoDescription
+  );
+    
 
     $("businessName").textContent =
       business.name || "";
