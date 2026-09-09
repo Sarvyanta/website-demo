@@ -179,7 +179,25 @@ if (
     "content",
     seoDescription
   );
-    
+      // Structured data for Google
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": business.name || "",
+    "description": business.description || "",
+    "url": canonicalUrl
+  };
+
+  if (business.logo) {
+    schema.image = resolvePath(business.logo);
+  }
+
+  const schemaElement = $("business-schema");
+
+  if (schemaElement) {
+    schemaElement.textContent =
+      JSON.stringify(schema);
+  }
 
     $("businessName").textContent =
       business.name || "";
