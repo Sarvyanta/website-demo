@@ -456,7 +456,9 @@ if (
       img.src = image.src;
 
       img.alt =
-        image.title || "Portrait Artwork";
+  image.title ||
+  ((businessData.business || {}).name || "Business") +
+  " - Artwork";
 
       img.loading = "lazy";
 
@@ -506,7 +508,9 @@ if (
       image.src;
 
     $("lightboxImage").alt =
-      image.title || "Portrait Artwork";
+  image.title ||
+  ((businessData.business || {}).name || "Business") +
+  " - Artwork";
 
     $("lightboxCounter").textContent =
       (currentImage + 1) +
