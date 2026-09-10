@@ -1,3 +1,10 @@
+/*
+ * Sarvyanta Production Runtime
+ *
+ * Public deployment file.
+ * Master source and internal tooling are maintained privately
+ * in the Sarvyanta/website-engine repository.
+ */
 document.addEventListener("DOMContentLoaded", function () {
 
   const params = new URLSearchParams(window.location.search);
