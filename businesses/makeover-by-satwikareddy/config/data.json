@@ -1,1 +1,39 @@
 
+{
+  "business": {
+    "id": "makeover-by-satwikareddy",
+    "name": "Makeover by Satwikareddy",
+    "category": "Bridal Makeup Artist & Beauty Services",
+    "tagline": "Look Beautiful • Feel Confident On Your Special Day",
+    "description": "Makeover by Satwikareddy provides professional makeup and beauty services for weddings, engagements, receptions, pre-wedding events, parties, and other special occasions. With a focus on high-quality products, professional service, hygiene, and customer satisfaction, the goal is to help every client look beautiful and feel confident on their special day.",
+    "logo": "assets/logo/Makeoverbysathwikareddy.png"
+  },
+  "sections": {
+    "about": true,
+    "services": true,
+    "products": false,
+    "gallery": true,
+    "contact": true
+  },
+  "contact": {
+    "phone": "",
+    "location": "Hyderabad, Telangana"
+  },
+  "whatsapp": {
+    "number": "",
+    "owner": "sarvyanta"
+  },
+  "services": [
+    "👑 Bridal Makeup  - ₹15,000"
+  ],
+  "products": [],
+  "gallery": [
+    "assets/gallery/1000194413.jpg",
+    "assets/gallery/1000194556.jpg",
+    "assets/gallery/1000194415.jpg"
+  ],
+  "social": {
+    "instagram": "https://www.instagram.com/realistic_portrait_artist?stkn=MWdrc3E1a2V1ZHE0dQ==",
+    "facebook": ""
+  }
+}
